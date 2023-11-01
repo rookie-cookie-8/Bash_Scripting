@@ -90,7 +90,88 @@ then
                         break
                 fi
         done
-
-
-
 fi
+---------------------------------------------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+input(){
+        echo "Enter the first number"
+        read first
+        echo "Enter the second number"
+        read second
+
+        if [ -z "$first" ] || [ -z "$second" ]
+        then
+                if [ -n "$first" ] && [ -z "$second" ]
+                then
+                        echo "Second field empty"
+                        cont
+                elif [ -z "$first" ] && [ -n "$second" ]
+                then
+                        echo "First field empty"
+                        cont
+                else
+                        echo "Both field empty"
+                        cont
+                fi
+        fi
+        }
+calc() {
+        if [ -n "$first" ] && [ -n "$second" ]
+        then
+                echo "Press 1 for addition"
+                echo "Press 2 for Subtraction"
+                echo "Press 3 for multiplication"
+                echo "Press 4 for Power"
+                read choice
+                if [ "$choice" == "1" ]
+                then
+                        ans=$((first+second))
+                        echo "Result is: $ans"
+                        echo "*******************************************"
+                        con
+                elif [ "$choice" == "2" ]
+                then
+                        ans=$((first-second))
+                        echo "Result is: $ans"
+                        echo "*******************************************"
+                        con
+                elif [ "$choice" == "3" ]
+                then
+                        ans=$((first*second))
+                        echo "Result is: $ans"
+                        echo "*******************************************"
+                        con
+                elif [ "$choice" == "4" ]
+                then
+                        ans=$((first**second))
+                        echo "Result is: $ans"
+                        echo "*******************************************"
+                        con
+                fi
+        fi
+}
+con(){
+        echo "Would you like to continue with calculaions: Y or N"
+        read answer
+        if [ "$answer" == "Y" ]
+        then
+                input
+                calc
+        else
+                echo "Bye for now"
+        fi
+}
+cont () {
+        echo "Would you like to continue: Y or N"
+        read answer_1
+        if [ "$answer_1" == "Y" ]
+        then
+                input
+        else
+                echo "bye"
+        fi
+}
+input
+calc
+
