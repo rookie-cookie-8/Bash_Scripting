@@ -1,6 +1,65 @@
 #script to check whether file or directory exist or not. 
 #If file or directory exist, display the permissions
+#!/bin/bash
 
+echo "Enter the path"
+read path
+
+echo "Enter the filename"
+read filename
+
+if [ -z "$path" ]  || [ -z "$filename" ]
+then
+        if [ -n "$path" ] && [ -z "$filename" ]
+        then
+                echo "Filename field is empty"
+        elif [ -z "$path" ] && [ -n "$filename" ]
+        then
+                echo "Path field is empty"
+        else
+                echo "Both field is empty"
+        fi
+
+elif [ -n "$path" ] && [ -n "$filename" ]
+then
+        if [ -e "$path$filename" ]
+        then
+                if [ ! -r $path$filename ] && [ ! -w $path$filename ] && [ ! -x $path$filename ]
+                then
+                        echo "NO RWX permission"
+                elif [ -x $path$filename ] && ( [ ! -r $path$filename ] && [ ! -w $path$filename ] )
+                then
+                        echo "Execute permission"
+                        echo "No RW permission"
+                elif [ -w $path$filename ] && ( [ ! -r $path$filename ] && [ ! -x $path$filename ] )
+                then
+                        echo "Write permission"
+                        echo "No RX permission"
+                elif [ ! -r $path$filename ] && ( [ -w $path$filename ] && [  -x $path$filename ] )
+                then
+                        echo "WX permission"
+                        echo "No X permission"
+                elif [ -r $path$filename ] && ( [ ! -w $path$filename ] && [ ! -x $path$filename ] )
+                then
+                        echo "R permission"
+                        echo "No WX permission"
+                elif [ ! -w $path$filename ] && ( [ -r $path$filename ] && [ -x $path$filename ] )
+                then
+                        echo "RX permission"
+                        echo "No W permission"
+                elif [ ! -x $path$filename ] && ( [ -r $path$filename ] && [ -w $path$filename ] )
+                then
+                        echo "RW permission"
+                        echo "No x permission"
+                else
+                        echo "Full permission"
+                fi
+        else
+                echo "File not found"
+        fi
+fi
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #!/bin/bash
 
