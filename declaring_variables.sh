@@ -23,5 +23,7 @@ echo $e
 echo "*******************************************************"
 echo "Current working directory: $PWD"
 echo "*******************************************************"
+f=$USER
+echo "Current login user is : $f"
 echo "*******************************************************"
 echo "Current login user: $(whoami)"
