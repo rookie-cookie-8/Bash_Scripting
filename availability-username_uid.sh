@@ -1,4 +1,5 @@
-#find username and uid is available or not for use. 
+#Allows the username to enter the username and uid. 
+#script helps to check whether the username and uid is available or not. 
 
 #!/bin/bash
 
