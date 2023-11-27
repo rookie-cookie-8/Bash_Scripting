@@ -1,5 +1,5 @@
 #User input numbers in range
-#Display the number in even or add inbetween the sepcfied user supplied range
+#Display the numbers i.e. even or odd within the user specified range
 
 #!/bin/bash
 
