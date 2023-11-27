@@ -1,4 +1,4 @@
-#script: Two numbers as user input -->Display the addition of numbers and check whether the result id odd or even number. 
+#script: Two numbers as user input -->Display the addition of numbers and check whether the result is odd or even number. 
 
 #!/bin/bash
 
