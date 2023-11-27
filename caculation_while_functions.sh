@@ -174,4 +174,97 @@ cont () {
 }
 input
 calc
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+function user_input() {
+        echo "Enter the first number"
+        read first
+
+        echo "Enter the second number"
+        read second
+}
+function user_input_check(){
+        if [ -z "$first" ] || [ -z "$second" ]
+        then
+                if [ -n "$first" ] && [ -z "$second" ]
+                then
+                        echo "Second number field is empty"
+                elif [ -z "$first" ] && [ -n "$second" ]
+                then
+                        echo "First number field is empty"
+                else
+                        echo "Soemthing wrong with user input"
+                fi
+        fi
+        calc
+}
+
+function calc(){
+        if [ -n "$first" ] && [ -n "$second" ]
+        then
+                echo "Press 1: for Addition"
+                echo "Press 2: for Subraction"
+                echo "Press 3: for Multiplication"
+                echo "Press 4: for Power"
+                echo "Press 5: for Remainder"
+                echo "Press 6: for Quotient"
+                read choice
+                if [ "$choice" == "1" ]
+                then
+                        echo "*********************************"
+                        ans=$((first+second))
+                        echo "$first plus $second: $ans"
+                        do_it_again
+                elif [ "$choice" == "2" ]
+                then
+                        echo "*********************************"
+                        ans=$((first-second))
+                        echo "$first subtract $second: $ans"
+                        do_it_again
+                elif [ "$choice" == "3" ]
+                then
+                        echo "*********************************"
+                        ans=$((first*second))
+                        echo "$first multiply $second: $ans"
+                        do_it_again
+                elif [ "$choice" == "4" ]
+                then
+                        echo "*********************************"
+                        ans=$((first**second))
+                        echo "$first power $second: $ans"
+                        do_it_again
+                elif [ "$choice" == "5" ]
+                then
+                        echo "*********************************"
+                        ans=$((first%second))
+                        echo "$first Remainder $second: $ans"
+                        do_it_again
+                elif [ "$choice" == "6" ]
+                then
+                        echo "*********************************"
+                        ans=$((first/second))
+                        echo "$first quotient $second: $ans"
+                        do_it_again
+                fi
+
+        fi
+
+}
+function do_it_again(){
+        echo "**********************************************"
+        echo "Would you like to continue: Y/y or N/n"
+        read answer
+        if [ "$answer" == "Y" ] || [ "$answer" == "y" ]
+        then
+                user_input
+                user_input_check
+        else
+                echo "Bye"
+        fi
+}
+
+
+user_input
+user_input_check
 
