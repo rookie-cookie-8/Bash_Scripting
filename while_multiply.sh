@@ -40,3 +40,50 @@ then
 
         done
 fi
+---------------------------------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+echo "Enter the first number"
+read first
+
+echo "Enter the second number"
+read second
+
+echo "Enter the result"
+read result
+
+if [ -z "$first" ] || [ -z "$second" ] || [ -z "$result" ]
+then
+        if [ -n "$first" ] && [ -n "$second" ] && [ -z "$result" ]
+        then
+                echo "Result field missing"
+        elif [ -z "$first" ] && [ -n "$second" ] && [ -n "$result" ]
+        then
+                echo "First field missing"
+        elif [ -n "$first" ] && [ -z "$second" ] && [ -n "$result" ]
+        then
+                echo "Second field missing"
+        else
+                echo "Something missing with the user input"
+        fi
+
+elif [ -n "$first" ] && [ -n "$second" ] && [ -n "$result" ]
+then
+        answer=$((first*second))
+        if [ $answer -lt $result ]
+        then
+                while [ $answer -lt $result ]
+                do
+                        answer=$((first*second))
+                        echo "*************************************************"
+                        echo "$first times $second: $answer"
+                        ((second++))
+                        answer=$((first*second))
+
+                done
+        else
+                echo "$first times $second is more than 500, bye"
+        fi
+
+fi
+
