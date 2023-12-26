@@ -268,3 +268,86 @@ function do_it_again(){
 user_input
 user_input_check
 
+*****************************************************************************************************************************************************************
+
+#!/bin/bash
+
+function user-input {
+        echo "Enter the first number"
+        read first
+        echo "Enter the second number"
+        read second
+}
+function user-input-2 {
+        echo "*******************************************"
+        echo "Would you like to continue: Y/y or N/n"
+        read option
+        if [ "$option" == "Y" ] || [ "$option" == "y" ]
+        then
+                user-input
+        else
+                echo "BYe"
+        fi
+
+}
+function validation-1 {
+        if [ -z "$first" ] || [ -z "$second" ]
+        then
+                if [ -z "$first" ] && [ -n "$second" ]
+                then
+                        echo "First number field is empty"
+                        user-input-2
+                elif [ -n "$first" ] && [ -z "$second" ]
+                then
+                        echo "Second number field is empty"
+                        user-input-2
+                else
+                        echo "User input missing"
+                        user-input-2
+                fi
+        fi
+}
+function validation-2 {
+        if [ -n "$first" ] && [ -n "$second" ]
+        then
+                echo "*****************************"
+                echo "Addition --> Press 1"
+                echo "Subtraction --> Press 2"
+                echo "Multiplication --> Press 3"
+                echo "*****************************"
+                read choice
+                if [ "$choice" == "1" ]
+                then
+                        ans=$((first+second))
+                        echo "$first + $second --> $ans"
+                elif [ "$choice" == "2" ]
+                then
+                        ans=$((first-second))
+                        echo "$first - $second --> $ans"
+                elif [ "$choice" == "3" ]
+                then
+                        ans=$((first*second))
+                        echo "$first * $second --> $ans"
+                fi
+                again
+
+
+        fi
+}
+function again {
+        echo "*******************************************"
+        echo "Would you like to continue: Y/y or N/n"
+        read option
+        if [ "$option" == "Y" ] || [ "$option" == "y" ]
+        then
+                user-input
+                validation-1
+                validation-2
+        else
+                echo "Bye"
+        fi
+
+}
+user-input
+validation-1
+validation-2
