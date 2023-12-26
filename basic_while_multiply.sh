@@ -40,35 +40,44 @@ fi
 
 echo "Enter the first number"
 read first
-
-echo "Enter the second"
+echo "ENter the second number"
 read second
+echo "Enter the number, to stop the multiplication"
+read end
 
-if [ -z "$first" ] || [ -z "$second" ]
+if [ -z "$first" ] || [ -z "$second" ] || [ -z "$end" ]
 then
-        if [ -n "$first" ] && [ -z "$second" ]
+        if [ -n "$first" ] && [ -n "$second" ] && [ -z "$end" ]
         then
-                echo "Second number field is empty"
-        elif [ -z "$first" ] && [ -n "$second" ]
+                echo "Stop number field is empty"
+        elif [ -z "$first" ] && [ -n "$second" ] && [ -n "$end" ]
         then
                 echo "First number field is empty"
+        elif [ -n "$first" ] && [ -z "$second" ] && [ -n "$end" ]
+        then
+                echo "Second number field is empty"
         else
-                echo "Soemthing wrong with user input"
+                echo "User input missing"
         fi
 
-elif [ -n "$first" ] && [ -n "$second" ]
+elif [ -n "$first" ] && [ -n "$second" ] && [ -n "$end" ]
 then
         ans=$((first*second))
-        while [ $ans -lt 100 ]
-        do
-                ans=$((first*second))
-                echo "*************************************"
-                echo "First number is: $first"
-                echo "Second number is: $second"
-                echo "$first times $second is: $ans"
-                ((second++))
-                ans=$((first*second))
-        done
+        echo "****************************************"
+        if [ $ans -le $end ]
+        then
+                while [ $ans -lt $end ]
+                do
+                        echo "$first * $second --> $ans"
+                        ((second++))
+                        ans=$((first*second))
+
+                done
+        else
+                echo "Answer is greater than the end number"
+                echo "Bye"
+        fi
 fi
+
 
 
