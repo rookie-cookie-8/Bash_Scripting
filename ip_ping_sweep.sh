@@ -1,3 +1,47 @@
+#for oscp, exercise to conduct ping sweep in order to find active host with the same network
+
+#!/bin/bash
+
+echo "Enter the network part i.e. 192.168.1"
+read network
+
+echo "Enter the first network"
+read first
+echo "ENter the last network"
+read last
+
+if [ -z "$network" ] || [ -z "$first" ] || [ -z "$last" ]
+then
+        if [ -z "$network" ] && [ -n "$first" ] && [ -n "$last" ]
+        then
+                echo "Network part is empty"
+        elif [ -n "$network" ] && [ -z "$first" ] && [ -n "$last" ]
+        then
+                echo "First network is empty"
+        elif [ -n "$network" ] && [ -n "$first" ] && [ -z "$last" ]
+        then
+                echo "Last network is empty"
+        else
+                echo "User input field missing"
+        fi
+elif [ -n "$network" ] && [ -n "$first" ] && [ -n "$last" ]
+then
+        echo "************************************"
+        echo "Sending ICMP packets to $network.$first-$last"
+        echo "************************************"
+        for host in $(seq $first $last)
+        do
+                ping -c 1 $network.$host | grep -i "64 bytes" | cut -d " " -f4 | tr -d ":" >> ./host-alive &
+                sleep 0.2
+        done
+sleep 2
+cat ./host-alive | uniq
+rm -rf ./1
+rm -rf ./host-alive
+
+fi
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
 #ping sweep for oscp
 #!/bin/bash
 
