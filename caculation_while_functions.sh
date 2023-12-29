@@ -351,3 +351,86 @@ function again {
 user-input
 validation-1
 validation-2
+
+
+*****************************************************************************************************************************************************************
+
+#!/bin/bash
+
+function user_input {
+        echo "Enter the first number"
+        read first
+        echo "Enter the second number"
+        read second
+}
+
+function validation_1 {
+        if [ -z "$first" ] ||  [ -z "$second" ]
+        then
+                if [ -n "$first" ] && [ -z "$second" ]
+                then
+                        echo "Second number field is empty"
+                        again
+                elif [ -z "$first" ] && [ -n "$second" ]
+                then
+                        echo "First number field is empty"
+                        again
+                else
+                        echo "User input is missing"
+                        again
+                fi
+        fi
+        }
+
+function validation_2 {
+        if [ -n "$first" ] && [ -n "$second" ]
+        then
+                echo "*************************************"
+                echo "First number is: $first"
+                echo "Second number is: $second"
+                echo "*************************************"
+                operation
+                again
+        fi
+        }
+function operation {
+        echo "Press 1 for Addition"
+        echo "Press 2 for Subtraction"
+        echo "Press 3 for Multiplication"
+        read option
+        if [ "$option" == "1" ]
+        then
+                ans=$((first+second))
+                echo "$first plus $second is: $ans"
+        elif [ "$option" == "2" ]
+        then
+                ans=$((first-second))
+                echo "$first subtract $second is: $ans"
+        elif [ "$option" == "3" ]
+        then
+                ans=$((first*second))
+                echo "$first multiply $second is: $ans"
+        else
+                echo "Invalid choice"
+        fi
+}
+function again {
+        echo "*********************************************"
+        echo "Would you like to do it once again. Y/y or N/n"
+        read answer
+        if [ "$answer" == "Y" ] || [ "$answer" == "y" ]
+        then
+                user_input
+                validation_1
+                validation_2
+                operating
+        elif [ "$answer" == "n" ] || [ "$answer" == "N" ]
+        then
+                echo "You ask to exit, so bye"
+        else
+                echo "Invalid choice, so bye for now"
+        fi
+        }
+user_input
+validation_1
+validation_2
