@@ -1,7 +1,60 @@
 #basic multiply while loop
 #check if the multiplication of first and second number 
 #if the result is greater than 1000 then quit, else continue  
+#!/bin/bash
 
+echo "Enter the first number"
+read first
+echo "Enter the second number"
+read second
+echo "Enter the number to stop"
+read stop
+
+if [ -z "$first" ] || [ -z "$second" ] ||  [ -z "$stop" ]
+then
+        if [ -z "$first" ] && ( [ -n "$second" ] && [ -n "$stop" ] )
+        then
+                echo "First number field is empty"
+        elif [ -z "$second" ] && ( [ -n "$first" ] && [ -n "$stop" ] )
+        then
+                echo "Second number field is empty"
+        elif [ -z "$stop" ] && ( [ -n "$first" ] && [ -n "$second" ] )
+        then
+                echo "Stop number field is empty"
+        elif [ -n "$first" ] && ( [ -z "$second" ] && [ -z "$stop" ] )
+        then
+                echo "Second and stop field is empty"
+        elif [ -n "$second" ] && ( [ -z "$first" ] && [ -z "$stop" ] )
+        then
+                echo "First and stop field is empty"
+        elif [ -n "$stop" ] && ( [ -z "$first" ] && [ -z "$second" ] )
+        then
+                echo "First and second field is empty"
+        else
+                echo "Something wrong with user input"
+        fi
+
+elif [ -n "$first" ] && [ -n "$second" ] && [ -n "$stop" ]
+then
+        ans=$((first*second))
+        if [ $ans -gt $stop ]
+        then
+                echo "Cannot procede further as there is nothing to do"
+        else
+                while [ $ans -lt $stop ]
+                do
+                        ans=$((first*second))
+                        echo "*************************************"
+                        echo "$first * $second: $ans"
+                        ((second++))
+                        ans=$((first*second))
+
+                done
+        fi
+
+
+fi
+---------------------------------------------------------------------------------------------------------------------------------------------------------
 #!/bin/bash
 
 echo "Enter the first number"
