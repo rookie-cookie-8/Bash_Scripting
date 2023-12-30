@@ -163,3 +163,135 @@ then
                 echo "No file found"
         fi
 fi
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+echo "Enter the absolute path"
+read path
+echo "Enter the file name"
+read file
+
+if [ -z "$path" ] || [ -z "$file" ]
+then
+        if [ -z "$path" ] && [ -n "$file" ]
+        then
+                echo "Path field is empty"
+        elif [ -n "$path" ] && [ -w "$file" ]
+        then
+                echo "Filename field is empty"
+        else
+                echo "User input missing"
+        fi
+
+elif [ -n "$path" ] && [ -n "$file" ]
+then
+        if [ -e $path$file ]
+        then
+                if [ -f $path$file ]
+                then
+                        if [ ! -r $path$file ] && [ ! -w "$path$file" ] && [ ! -x "$path$file" ]
+                        then
+                                echo "*****************************"
+                                echo "No Read permission"
+                                echo "No Write permission"
+                                echo "No Execute permission"
+                        elif [ -x $path$file ] && ( [ ! -w "$path$file" ] && [ ! -r "$path$file" ] )
+                        then
+                                echo "*****************************"
+                                echo "No Read permission"
+                                echo "No Write permission"
+                                echo "Execute permission"
+                        elif [ -w $path$file ] && ( [ ! -r "$path$file" ] && [ ! -x "$path$file" ] )
+                        then
+                                echo "*****************************"
+                                echo "No Read permission"
+                                echo "Write permission"
+                                echo "No Execute permission"
+                        elif [ ! -r $path$file ] && ( [ -w "$path$file" ] && [ -x "$path$file" ] )
+                        then
+                                echo "*****************************"
+                                echo "No Read permission"
+                                echo "Write permission"
+                                echo "Execute permission"
+                        elif [ -r $path$file ] && ( [ ! -w "$path$file" ] && [ ! -x "$path$file" ] )
+                        then
+                                echo "*****************************"
+                                echo "Read permission"
+                                echo "No Write permission"
+                                echo "No Execute permission"
+                        elif [ ! -w $path$file ] && ( [ -r "$path$file" ] && [ -x "$path$file" ] )
+                        then
+                                echo "*****************************"
+                                echo "Read permission"
+                                echo "No Write permission"
+                                echo "Execute permission"
+                        elif [ ! -x $path$file ] && ( [ -r "$path$file" ] && [ -w "$path$file" ] )
+                        then
+                                echo "*****************************"
+                                echo "Read permission"
+                                echo "Write permission"
+                                echo "No Execute permission"
+                        else
+                                echo "**********************************"
+                                echo "Read permission"
+                                echo "Write permission"
+                                echo "Execute Permission"
+                        fi
+                elif [ -d $path$file ]
+                then
+                        if [ ! -r $path$file ] && [ ! -w "$path$file" ] && [ ! -x "$path$file" ]
+                        then
+                                echo "*****************************"
+                                echo "No Read permission"
+                                echo "No Write permission"
+                                echo "No Execute permission"
+                        elif [ -x $path$file ] && ( [ ! -w "$path$file" ] && [ ! -r "$path$file" ] )
+                        then
+                                echo "*****************************"
+                                echo "No Read permission"
+                                echo "No Write permission"
+                                echo "Execute permission"
+                        elif [ -w $path$file ] && ( [ ! -r "$path$file" ] && [ ! -x "$path$file" ] )
+                        then
+                                echo "*****************************"
+                                echo "No Read permission"
+                                echo "Write permission"
+                                echo "No Execute permission"
+                        elif [ ! -r $path$file ] && ( [ -w "$path$file" ] && [ -x "$path$file" ] )
+                        then
+                                echo "*****************************"
+                                echo "No Read permission"
+                                echo "Write permission"
+                                echo "Execute permission"
+                        elif [ -r $path$file ] && ( [ ! -w "$path$file" ] && [ ! -x "$path$file" ] )
+                        then
+                                echo "*****************************"
+                                echo "Read permission"
+                                echo "No Write permission"
+                                echo "No Execute permission"
+                        elif [ ! -w $path$file ] && ( [ -r "$path$file" ] && [ -x "$path$file" ] )
+                        then
+                                echo "*****************************"
+                                echo "Read permission"
+                                echo "No Write permission"
+                                echo "Execute permission"
+                        elif [ ! -x $path$file ] && ( [ -r "$path$file" ] && [ -w "$path$file" ] )
+                        then
+                                echo "*****************************"
+                                echo "Read permission"
+                                echo "Write permission"
+                                echo "No Execute permission"
+                        else
+                                echo "**********************************"
+                                echo "Read permission"
+                                echo "Write permission"
+                                echo "Execute Permission"
+                        fi
+                fi
+        else
+                echo "*****************************"
+                echo "Invalid path"
+                echo "File not found"
+        fi
+fi
+
