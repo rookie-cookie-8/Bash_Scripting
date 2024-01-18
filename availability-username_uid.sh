@@ -5,9 +5,8 @@
 
 echo "Enter the username"
 read username
-
-echo "Enter uid"
-read uid
+echo "ENter the UID"
+read uid 
 
 if [ -z "$username" ] || [ -z "$uid" ]
 then
@@ -16,35 +15,34 @@ then
                 echo "UID field empty"
         elif [ -z "$username" ] && [ -n "$uid" ]
         then
-                echo "Username field empty"
+                echo "username field empty"
         else
-                echo "Soemthing wrong with user input"
+                echo "Both field empty"
         fi
-
 elif [ -n "$username" ] && [ -n "$uid" ]
 then
-        cat /etc/passwd | cut -d ":" -f1 | grep -i "$username" > ./username-list
-        cat /etc/passwd | cut -d ":" -f3 | grep -i "$uid" > ./uid-list
-        if [ -f ./username-list ] && [ -f ./uid-list ]
+        cat /etc/passwd | grep -i "$username" | cut -d ":" -f1 > ./username_lists
+        cat /etc/passwd | grep -i "$uid" | cut -d ":" -f3 > ./uid_lists
+        echo "**********************************************"
+        if [ ! -s ./username_lists ] && [ ! -s ./uid_lists ]
         then
-                if [ -s ./username-list ] && [ -s ./uid-list ]
-                then
-                        echo "Username not available"
-                        echo "uid not available"
-                elif [ ! -s ./username-list ] && [ -s ./uid-list ]
-                then
-                        echo "Username available"
-                        echo "uid not avilable"
-                elif [ ! -s ./uid-list ] && [ -s ./username-list ]
-                then
-                        echo "uid available"
-                        echo "username not avilable"
-                else
-                        echo "Username available"
-                        echo "uid available"
-                fi
-
+                echo "Username --> $username is available"
+                echo "UID --> $uid is available"
+        elif [ -s ./username_lists ] && [ ! -s ./uid_lists ]
+        then
+                echo "Username --> $username is not available"
+                echo "UID --> $uid is available"
+        elif [ ! -s ./username_lists ] && [ -s ./uid_lists ]
+        then
+                echo "Username --> $username is available"
+                echo "UID --> $uid is not available"
+        elif [ -s ./username_lists ] && [ -s ./uid_lists ]
+        then
+                echo "Username --> $username is not available"
+                echo "UID --> $uid is not available"
         fi
+
 fi
-rm -rf ./username-list
-rm -rf ./uid-list
+rm -rf ./1
+rm -rf ./username_lists
+rm -rf ./uid_lists
