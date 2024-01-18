@@ -5,55 +5,74 @@
 
 echo "Enter the first number"
 read first
-echo "Enter the second number"
-read second
-echo "Enter the number to stop"
+echo "ENter the multiplier"
+read multiplier
+echo "Enter the number to stop the multiplication"
 read stop
 
-if [ -z "$first" ] || [ -z "$second" ] ||  [ -z "$stop" ]
+if [ -z "$first" ] || [ -z "$multiplier" ] || [ -z "$stop" ]
 then
-        if [ -z "$first" ] && ( [ -n "$second" ] && [ -n "$stop" ] )
+        if [ -n "$first" ] && ( [ -z "$multiplier" ] && [ -z "$stop" ] )
         then
-                echo "First number field is empty"
-        elif [ -z "$second" ] && ( [ -n "$first" ] && [ -n "$stop" ] )
+                echo "*************************************"
+                echo "Multiplier field is empty"
+                echo "Stop field is empty"
+        elif [ -z "$stop" ] && ( [ -n "$multiplier" ] && [ -n "$first" ] )
         then
-                echo "Second number field is empty"
-        elif [ -z "$stop" ] && ( [ -n "$first" ] && [ -n "$second" ] )
+                echo "*************************************"
+                echo "Stop field is empty"
+        elif [ -z "$multiplier" ] && ( [ -n "$stop" ] && [ -n "$first" ] )
         then
-                echo "Stop number field is empty"
-        elif [ -n "$first" ] && ( [ -z "$second" ] && [ -z "$stop" ] )
+                echo "*************************************"
+                echo "multiplier field is empty"
+        elif [ -n "$stop" ] && ( [ -z "$multiplier" ] && [ -n "$first" ] )
         then
-                echo "Second and stop field is empty"
-        elif [ -n "$second" ] && ( [ -z "$first" ] && [ -z "$stop" ] )
+                echo "*************************************"
+                echo "multiplier field is empty"
+                echo "first field is empty"
+        elif [ -n "$multiplier" ] && ( [ -z "$first" ] && [ -z "$stop" ] )
         then
-                echo "First and stop field is empty"
-        elif [ -n "$stop" ] && ( [ -z "$first" ] && [ -z "$second" ] )
+                echo "*************************************"
+                echo "first field is empty"
+                echo "stop field is empty"
+        elif [ -n "$stop" ] && ( [ -z "$multiplier" ] && [ -z "$first" ] )
         then
-                echo "First and second field is empty"
-        else
-                echo "Something wrong with user input"
+                echo "*************************************"
+                echo "Multiplier field is empty"
+                echo "first field is empty"
+        elif [ -z "$first" ] && ( [ -n "$multiplier" ] && [ -n "$stop" ] )
+        then
+                echo "*************************************"
+                echo "First field is empty"
+        elif [ -z "$first" ] && [ -z "$multiplier" ] && [ -z "$stop" ]
+        then
+                echo "*************************"
+                echo "First field is empty"
+                echo "Multiplier field is empty"
+                echo "Stop field is empty"
         fi
-
-elif [ -n "$first" ] && [ -n "$second" ] && [ -n "$stop" ]
+elif [ -n "$first" ] && [ -n "$multiplier" ] && [ -n "$stop" ]
 then
-        ans=$((first*second))
-        if [ $ans -gt $stop ]
+        echo "************************************************"
+        ans=$((first*multiplier))
+        if [ $ans -lt $stop ]
         then
-                echo "Cannot procede further as there is nothing to do"
-        else
                 while [ $ans -lt $stop ]
                 do
-                        ans=$((first*second))
-                        echo "*************************************"
-                        echo "$first * $second: $ans"
-                        ((second++))
-                        ans=$((first*second))
-
+                        ans=$((first*multiplier))
+                        echo "$first * $multiplier is $ans"
+                        ((multiplier++))
+                        ans=$((first*multiplier))
                 done
+        else
+                echo "$first * $multiplier is: $ans" 
+                echo "$ans greater than $stop"
+                echo "Bye"
         fi
 
-
 fi
+
+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 #!/bin/bash
 
