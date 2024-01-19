@@ -1,105 +1,56 @@
-#User input numbers in range
-#Display the numbers i.e. even or odd within the user specified range
+#basic script, ask user for numbers and are used in sequence. 
+#Based upon the user input, it display even or odd numbers within the specified range
 
-#!/bin/bash
+!/bin/bash
 
 echo "Enter the first number"
 read first
 
 echo "Enter the second number"
-read second
+read second 
 
 if [ -z "$first" ] || [ -z "$second" ]
 then
         if [ -n "$first" ] && [ -z "$second" ]
         then
                 echo "Second number field is empty"
-        elif [ -z "$first" ] && [ -n "$second" ]
+        elif [ -n "$second" ] && [ -z "$first" ]
         then
                 echo "First number field is empty"
         else
-                echo "User input missing"
+                echo "Issues with the user input"
         fi
 
 elif [ -n "$first" ] && [ -n "$second" ]
 then
-        echo "*****************************************"
-        echo "Would you like to view even or odd numbers"
-        read choice
-        if [ "$choice" == "even" ]
+        echo "************************************************"
+        echo "Would you like to print even or odd number: E/e or O/o"
+        read option
+        echo "************************************************"
+        if [ "$option" == "e" ] || [ "$option" == "E" ]
         then
-                for numbers in $(seq $first $second)
+                for even_number in $(seq $first $second)
                 do
-                        if (($numbers%2==0))
+                        if (($even_number%2==0))
                         then
-                                echo "$numbers"
+                                echo "Even number is: $even_number"
+                        else
+                                continue
+                        fi
+                done
+        elif [ "$option" == "o" ] || [ "$option" == "O" ]
+        then
+                for odd_number in $(seq $first $second)
+                do
+                        if (($odd_number%2!=0))
+                        then
+                                echo "Odd number is: $odd_number"
                         else
                                 continue
                         fi
                 done
         else
-                for numbers in $(seq $first $second)
-                do
-                        if (($numbers%2!=0))
-                        then
-                                echo $numbers
-                        else
-                                continue
-                        fi
-                done
-        fi
-fi
---------------------------------------------------------------------------------------------------------------------------------------------------
-#!/bin/bash
-
-echo "Enter the first number"
-read first
-
-echo "Enter the second number"
-read second
-
-if [ -z "$first" ] || [ -z "$second" ]
-then
-        if [ -n "$first" ] && [ -z "$second" ]
-        then
-                echo "Second number field is empty"
-        elif [ -z "$first" ] && [ -n "$second" ]
-        then
-                echo "First number field is empty"
-        else
-                echo "User input missing"
+                echo "Invalid option, bye"
         fi
 
-elif [ -n "$first" ] && [ -n "$second" ]
-then
-        if [ $first -lt $second ]
-        then
-                echo "*****************************************"
-                echo "Would you like to view even or odd numbers"
-                read choice
-                if [ "$choice" == "even" ]
-                then
-                        for numbers in $(seq $first $second)
-                        do
-                                if (($numbers%2==0))
-                                then
-                                        echo "$numbers"
-                                else
-                                        continue
-                                fi
-                        done
-                else
-                        for numbers in $(seq $first $second)
-                        do
-                                if (($numbers%2!=0))
-                                then
-                                        echo $numbers
-                                else
-                                        continue
-                                fi
-                        done
-                fi
-        else
-                echo "Second number cannot be lesser, try again later"
-        fi
 fi
