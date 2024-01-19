@@ -1,63 +1,47 @@
-#script created for oscp exercise to look / find javascript files 
+#oscp exercise looking for javascript files
+
 #!/bin/bash
 
-#user input, Enter the absolute path
 echo "Enter the file path"
 read path
+echo "Enter the filename"
+read file
 
-#user input, enter the filename
-echo "Enter the file name"
-read filename
-
-#condition check of the user input.
-if [ -z "$path" ] || [ -z "$filename" ]
+if [ -z "$path" ] || [ -z "$file" ]
 then
-        if [ -z "$path" ] && [ -n "$filename" ]
+        if [ -n "$path" ] && [ -z "$file" ]
         then
-                echo "Path field empty"
-        elif [ -n "$path" ] && [ -z "$filename" ]
+                echo "File field not found"
+        elif [ -z "$path" ] && [ -n "$file" ]
         then
-                echo "Filename field empty"
+                echo "Path field not found"
         else
-                echo "User input field missing"
+                echo "Issues with the user input"
         fi
-#user input OK. 
-elif [ -n "$path" ] && [ -n "$filename" ]
+elif [ -n "$path" ] && [ -n "$file" ]
 then
-        # If the file exists, and the file size is greater than 0 bytes
-        if [ -s $path$filenme ]
+        if [ -e $path$file ]
         then
-                echo "***************************************"
-                echo "Looking for Javascript files in $path$filename "
-
-                #file found and looking for javascript files. If found, the output will be saved inside a file i.e. javascript-files
-                cat $path$filename | grep -i ".js" | cut -d "/" -f5 | cut -d " " -f1 | sort | uniq > /home/kali/bash-scripts/javascript_files
-                
-                # If the file exists, and the file size is greater than 0 bytes
-                if [ -s /home/kali/bash-scripts/javascript_files ]
+                if [ -f $path$file ]
                 then
-                        #user input, ask whether the user would like to view the file contents or not. 
-                        echo "Would you like to view the file contents. Y/y or N/n"
-                        read choice
-
-                        #If user would like to view the file contents, than the files which are found will be displayed
-                        if [ "$choice" == "Y" ] || [ "$choice" == "y" ]
+                        cat $path$file | grep -i ".js" | cut -d "/" -f5 | sort | uniq > ./javascript_files
+                        if [ -s ./javascript_files ]
                         then
-                                cat /home/kali/bash-scripts/javascript_files
+                                echo "*****************************************"
+                                echo "File found"
+                                echo "*****************************************"
+                                cat ./javascript_files
+                                echo "*****************************************"
                         else
-
-                                #User would not like to view the file contents, so exit the script. 
-                                echo "Bye for now"
+                                echo "No javascript files"
                         fi
+                else
+                        echo "No file found"
                 fi
         else
-
-                #User input, If user entered invalid file path or does not exist
-                echo "File doesnt exist or invalid path"
+                echo "*******************************************"
+                echo "Invalid file path"
         fi
-
 fi
-
-#Delete the file which were created within the script
-rm -rf /home/kali/bash-scripts/javascript_files
-rm -rf /home/kali/bash-scripts/1
+rm -rf ./1
+rm -rf ./javascript_files
