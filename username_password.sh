@@ -1,64 +1,63 @@
-#authentication. Still got some bugs
+#authentication username and password. 
 
 #!/bin/bash
 
-user_input(){
+function user_input {
         echo "Enter the username"
         read username
         echo "Enter the password"
         read password
-        echo "***************************************"
 }
 
-
-user_input_check(){
+function validation_1 {
         if [ -z "$username" ] || [ -z "$password" ]
         then
-                if [ -n "$username" ] && [ -z "$password" ]
+                if [ -z "$username" ] && [ -n "$password" ]
                 then
-                        echo "Password field is empty"
-                elif [ -z "$username" ] && [ -n "$password" ]
+                        echo "Uername field empty"
+                        try_again
+                elif [ -n "$username" ] && [ -z "$password" ]
                 then
-                        echo "Username field is empty"
+                        echo "Password field empty"
+                        try_again
                 else
-                        echo "Something wrong with the user input"
+                        echo "Issues with the user input"
+                        try_again
                 fi
         fi
 }
-
-authentication(){
+function validation_2 {
         if [ -n "$username" ] && [ -n "$password" ]
         then
                 if [ "$username" == "admin" ] && [ "$password" == "pass" ]
                 then
-                        echo "Login success"
-                        exit
+                        echo "********************************"
+                        echo "Success"
                 else
-                        echo "Incorrect login credentials"
-                        echo "Would you like to continue Y/y or N/n"
-                        read choice
-                        if [ "$choice" == "Y" ] || [ "$choice" == "y" ]
-                        then
-                                again
-                        else
-                                echo "Bye"
-                                exit
-                        fi
+                        echo "********************************"
+                        echo "Incorrect login details"
+                        try_again
                 fi
         fi
 }
-again(){
-        login_attempt=0
-        while [ $login_attempt -lt 4 ]
-        do
+function try_again {
+        echo "Would you like to try again. Y/y or N/n"
+        read option
+        if [ "$option" == "Y" ] || [ "$option" == "y" ]
+        then
                 user_input
-                user_input_check
-                authentication
-                ((login_attempt++))
-
-        done
+                validation_1
+                validation_2
+        elif [ "$option" == "N" ] || [ "$option" == "n" ]
+        then
+                echo "Bye"
+        else
+                echo "Invalid option"
+        fi
 }
 
+
+
 user_input
-user_input_check
-authentication
+validation_1
+validation_2
