@@ -1,35 +1,42 @@
 #oscp exercise, to find out multiple hostname belongs to the domain
-
+#apt install -y seclists
+#file location for most comman hostname: /usr/share/seclists/Discovery/DNS/
 #!/bin/bash
 
-echo "Enter the wordlist file location"
-read wordlist_file
-
-echo "ENter the domain i.e google.com"
+echo "Enter the domain name i.e. google.com"
 read domain
+echo "Enter the filename for brute force"
+read file
 
-if [ -z "$wordlist_file" ] || [ -z "$domain" ]
+if [ -z "$domain" ] ||  [ -z "$file" ]
 then
-
-        if [ -n "$wordlist_file" ] && [ -z "$domain" ]
+        if [ -z "$domain" ] && [ -n "$file" ]
         then
-                echo "Domain field empty"
-        elif [ -z "$wordlist_file" ] && [ -n "$domain" ]
+                echo "*****************************************"
+                echo "Domain input field is empty"
+        elif [ -n "$domain" ] && [ -z "$file" ]
         then
-                echo "file field empty"
+                echo "*****************************************"
+                echo "File input field is empty"
         else
+                echo "*****************************************"
                 echo "SOmething wrong with the user input"
         fi
-elif [ -n "$wordlist_file" ] && [ -n "$domain" ]
+elif [ -n "$domain" ] && [ -n "$file" ]
 then
-        if [ -f $wordlist_file ]
+        if [ -f "$file" ]
         then
-                for names in $(cat $wordlist_file)
+                for names in $(cat $file) 
                 do
-                        host $names.$domain | grep "has address" | cut -d " " -f1,4 2>/dev/null
-                        sleep 0.1
+                        host -t a $names.$domain | grep -i "has address" | cut -d " " -f1,4 2>/dev/null
+                        sleep 0.2
+
                 done
         else
-                echo "File not found"
+                echo "Invalid file path"
+        fi
+
+
+fi
         fi
 fi
