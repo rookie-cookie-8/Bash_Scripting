@@ -1,9 +1,6 @@
-#for oscp exercise, network ip sweep
-
-
 #!/bin/bash
 
-echo "Enter the network i.e. 192.168.100"
+echo "Enter the network for example 1.1.1"
 read network
 echo "Enter the first host"
 read first
@@ -12,63 +9,51 @@ read last
 
 if [ -z "$network" ] || [ -z "$first" ] || [ -z "$last" ]
 then
-        if [ -n "$network" ] && ( [ -z "$first" ] && [ -z "$last" ] )
+        if [ -n "$network" ] && [ -n "$first" ] && [ -z "$last" ]
         then
-                echo "**************************************"
+                echo "Last host field is empty"
+        elif [ -n "$network" ] && [ -z "$first" ] && [ -n "$last" ]
+        then
+                echo "First host field is empty"
+        elif [ -z "$network" ] && [ -n "$first" ] && [ -n "$last" ]
+        then
+                echo "Network field is empty"
+        elif [ -n "$network" ] && [ -z "$first" ] && [ -z "$last" ]
+        then
                 echo "First host field is empty"
                 echo "Last host field is empty"
-        elif [ -z "$first" ] && ( [ -n "$network" ] && [ -n "$last" ] )
+        elif [ -z "$network" ] && [ -z "$first" ] && [ -n "$last" ]
         then
-                echo "**************************************"
+                echo "Network field is empty"
                 echo "First host field is empty"
-        elif [ -z "$last" ] && ( [ -n "$network" ] && [ -n "$first" ] )
+        elif [ -z "$network" ] && [ -n "$first" ] && [ -z "$last" ]
         then
-                echo "**************************************"
-                echo "Last host field is empty"
-        elif [ -n "$first" ] && ( [ -z "$network" ] && [ -z "$last" ] )
-        then
-                echo "**************************************"
                 echo "Network host field is empty"
                 echo "Last host field is empty"
-        elif [ -z "$first" ] && ( [ -n "$network" ] && [ -n "$last" ] )
+        elif [ -n "$network" ] && [ -n "$first" ] && [ -z "$last" ]
         then
-                echo "**************************************"
-                echo "Network host field is empty"
-        elif [ -z "$network" ] && ( [ -n "$first" ] && [ -n "$last" ] )
-        then
-                echo "**************************************"
-                echo "Network host field is empty"
-        elif [ -n "$last" ] && ( [ -z "$network" ] && [ -z "$first" ] )
-        then
-                echo "**************************************"
-                echo "Network host field is empty"
-                echo "First host field is empty"
+                echo "Last host field is empty"
         elif [ -z "$network" ] && [ -z "$first" ] && [ -z "$last" ]
         then
-                echo "**************************************"
-                echo "Network host field is empty"
+                echo "Network field is empty"
                 echo "First host field is empty"
                 echo "Last host field is empty"
         fi
 elif [ -n "$network" ] && [ -n "$first" ] && [ -n "$last" ]
 then
-        echo "****************************************************************"
-        echo "Checking $network.$first-$last"
-        echo "****************************************************************"
-        for ip in $(seq $first $last)
+        for host_alive in $(seq $first $last)
         do
-                ping -c 2 $network.$ip | grep -i "64 bytes" | cut -d " " -f4 | tr -d ":" | uniq 1>> ./hosts_alive 2>/dev/null &
+                ping -c 1 $network.$host_alive | grep -i "64 bytes" | cut -d " " -f4 | tr -d ":" >> ./host_active &
                 sleep 0.2
-
         done
-        if [ -s ./hosts_alive ]
+        if [ -s ./host_active ]
         then
-                cat ./hosts_alive
+                echo "*********************************************"
+                cat ./host_active
         else
-                echo "No active hosts"
+                echo "NO active host"
         fi
-
 
 fi
 rm -rf ./1
-rm -rf ./hosts_alive
+rm -rf ./host_active
