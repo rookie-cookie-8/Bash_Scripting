@@ -45,4 +45,31 @@ then
 fi
 rm -rf ./1
 rm -rf ./javascript_files
+-----------------------------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+echo "Enter the file path"
+read filepath
+
+if [ -z "$filepath" ]
+then
+        echo "File path field is empty"
+else
+        echo "**********************************"
+        if [ -f "$filepath" ] && [ -s "$filepath" ]
+        then
+                cat $filepath | grep -i "js" | cut -d "/" -f5 | sort | uniq > /home/kali/bash-scripts/javascript_files 
+                if [ -s /home/kali/bash-scripts/javascript_files ]
+                then
+                        cat ./javascript_files
+                else
+                        echo "No contents found"
+                fi
+        else
+                echo "File not found"
+        fi
+
+fi
+rm -rf ./1
+rm -rf ./javascript_files
 
