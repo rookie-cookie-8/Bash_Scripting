@@ -1,155 +1,65 @@
 #basic multiply while loop
 #check if the multiplication of first and second number 
 #if the result is greater than 1000 then quit, else continue  
+
 #!/bin/bash
 
 echo "Enter the first number"
 read first
-echo "ENter the multiplier"
+echo "Enter the Multiplication number"
 read multiplier
-echo "Enter the number to stop the multiplication"
-read stop
+echo "Enter the stop number"
+read stop_number
 
-if [ -z "$first" ] || [ -z "$multiplier" ] || [ -z "$stop" ]
+if [ -z "$first" ] || [ -z "$multiplier" ] || [ -z "$stop_number" ]
 then
-        if [ -n "$first" ] && ( [ -z "$multiplier" ] && [ -z "$stop" ] )
+        if [ -n "$first" ] && [ -z "$multiplier" ] && [ -z "$stop_number" ]
         then
-                echo "*************************************"
                 echo "Multiplier field is empty"
-                echo "Stop field is empty"
-        elif [ -z "$stop" ] && ( [ -n "$multiplier" ] && [ -n "$first" ] )
-        then
-                echo "*************************************"
-                echo "Stop field is empty"
-        elif [ -z "$multiplier" ] && ( [ -n "$stop" ] && [ -n "$first" ] )
-        then
-                echo "*************************************"
-                echo "multiplier field is empty"
-        elif [ -n "$stop" ] && ( [ -z "$multiplier" ] && [ -n "$first" ] )
-        then
-                echo "*************************************"
-                echo "multiplier field is empty"
-                echo "first field is empty"
-        elif [ -n "$multiplier" ] && ( [ -z "$first" ] && [ -z "$stop" ] )
-        then
-                echo "*************************************"
-                echo "first field is empty"
-                echo "stop field is empty"
-        elif [ -n "$stop" ] && ( [ -z "$multiplier" ] && [ -z "$first" ] )
-        then
-                echo "*************************************"
-                echo "Multiplier field is empty"
-                echo "first field is empty"
-        elif [ -z "$first" ] && ( [ -n "$multiplier" ] && [ -n "$stop" ] )
-        then
-                echo "*************************************"
-                echo "First field is empty"
-        elif [ -z "$first" ] && [ -z "$multiplier" ] && [ -z "$stop" ]
-        then
-                echo "*************************"
-                echo "First field is empty"
-                echo "Multiplier field is empty"
-                echo "Stop field is empty"
-        fi
-elif [ -n "$first" ] && [ -n "$multiplier" ] && [ -n "$stop" ]
-then
-        echo "************************************************"
-        ans=$((first*multiplier))
-        if [ $ans -lt $stop ]
-        then
-                while [ $ans -lt $stop ]
-                do
-                        ans=$((first*multiplier))
-                        echo "$first * $multiplier is $ans"
-                        ((multiplier++))
-                        ans=$((first*multiplier))
-                done
-        else
-                echo "$first * $multiplier is: $ans" 
-                echo "$ans greater than $stop"
-                echo "Bye"
-        fi
-
-fi
-
-
----------------------------------------------------------------------------------------------------------------------------------------------------------
-#!/bin/bash
-
-echo "Enter the first number"
-read first
-
-echo "Enter the second number"
-read second
-
-if [ -z "$first" ] || [ -z "$second" ]
-then
-        if [ -n "$first" ] && [ -z "$second" ]
-        then
-                echo "Second number field is empty"
-        elif [ -z "$first" ] && [ -n "$second" ]
-        then
-                echo "First number field is empty"
-        else
-                echo "Both number field empty"
-        fi
-elif [ -n "$first" ] && [ -n "$second" ]
-then
-        ans=$((first*second))
-        echo "$first times $second is: $ans"
-        while [ $ans -le 1000 ]
-        do
-                echo "*********************************"
-                ans=$((first*second))
-                echo "$first times $second is: $ans"
-                ((second++))
-                ans=$((first*second))
-        done
-echo "Answer is greater than 1000, QUIT"
-fi
----------------------------------------------------------------------------------------------------------------------------------------------------------
-#!/bin/bash
-
-echo "Enter the first number"
-read first
-echo "ENter the second number"
-read second
-echo "Enter the number, to stop the multiplication"
-read end
-
-if [ -z "$first" ] || [ -z "$second" ] || [ -z "$end" ]
-then
-        if [ -n "$first" ] && [ -n "$second" ] && [ -z "$end" ]
+                echo "Stop number field is empty"
+        elif [ -n "$first" ] && [ -n "$multiplier" ] && [ -z "$stop_number" ]
         then
                 echo "Stop number field is empty"
-        elif [ -z "$first" ] && [ -n "$second" ] && [ -n "$end" ]
+        elif [ -n "$first" ] && [ -z "$multiplier" ] && [ -n "$stop_number" ]
+        then
+                echo "Multiplier field is empty"
+        elif [ -z "$first" ] && [ -n "$multiplier" ] && [ -z "$stop_number" ]
+        then
+                echo "First field is empty"
+                echo "Stop number field is empty"
+        elif [ -z "$first" ] && [ -n "$multiplier" ] && [ -n "$stop_number" ]
         then
                 echo "First number field is empty"
-        elif [ -n "$first" ] && [ -z "$second" ] && [ -n "$end" ]
+        elif [ -z "$first" ] && [ -z "$multiplier" ] && [ -n "$stop_number" ]
         then
-                echo "Second number field is empty"
-        else
-                echo "User input missing"
+                echo "First field is empty"
+                echo "Multiplier field is empty"
+        elif [ -z "$first" ] && [ -z "$multiplier" ] && [ -z "$stop_number" ]
+        then
+                echo "First field is empty"
+                echo "Multiplier field is empty"
+                echo "Stop number field is empty"
         fi
-
-elif [ -n "$first" ] && [ -n "$second" ] && [ -n "$end" ]
+elif [ -n "$first" ] && [ -n "$multiplier" ] && [ -n "$stop_number" ]
 then
-        ans=$((first*second))
-        echo "****************************************"
-        if [ $ans -le $end ]
+        ans=$((first*multiplier))
+        if [ $ans -lt $stop_number ]
         then
-                while [ $ans -lt $end ]
+                while [ $ans -lt $stop_number ]
                 do
-                        echo "$first * $second --> $ans"
-                        ((second++))
-                        ans=$((first*second))
-
+                        echo "************************************************"
+                        echo "$first * $multiplier --> $ans"
+                        ((multiplier++))
+                        ans=$((first*multiplier))
+                        sleep 0.2
                 done
         else
-                echo "Answer is greater than the end number"
-                echo "Bye"
+                echo "Result of $first times $multiplier is greater than $stop_number"
+                echo "Cant do anything"
         fi
 fi
+
+   
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 #while loop 
