@@ -38,7 +38,7 @@ fi
 
 #!/bin/bash
 
-function user-input {
+function user_input {
         echo "Enter the first number"
         read first
         echo "Enter the second number"
@@ -51,55 +51,52 @@ function validation_1 {
                 if [ -n "$first" ] && [ -z "$second" ]
                 then
                         echo "Second number field is empty"
-                        again
+                        do_it_again
                 elif [ -z "$first" ] && [ -n "$second" ]
                 then
                         echo "First number field is empty"
-                        again
+                        do_it_again
                 else
-                        echo "User input is missing"
-                        again
+                        echo "Issues with the user input"
+                        do_it_again
                 fi
         fi
 }
 function validation_2 {
         if [ -n "$first" ] && [ -n "$second" ]
         then
-                echo "*********************************"
-                echo "First number is: $first"
-                echo "Second number is: $second"
-                echo "*********************************"
+                echo "***********************************"
                 ans=$((first+second))
                 if (($ans%2==0))
                 then
-                        echo "Result of addition --> $ans"
+                        echo "$first plus $second --> $ans"
                         echo "$ans --> Even number"
-                        echo "*********************************"
-                        again
+                        do_it_again
                 else
-                        echo "Result of addition --> $ans"
-                        echo "$ans --> odd number"
-                        echo "*********************************"
-                        again
+                        echo "$first plus $second --> $odd"
+                        echo "$ans --> Odd number"
+                        do_it_again
                 fi
         fi
 }
-function again {
-        echo "Would you like to perform the action once again"
-        read option
-        if [ "$option" == "Y" ] || [ "$option" == "y" ]
+function do_it_again {
+        echo "********************************************"
+        echo "Would you like to do it again"
+        read option 
+        if [ "$option" == "y" ] || [ "$option" == "Y" ]
         then
-                user-input
+                user_input
                 validation_1
                 validation_2
+        elif [ "$option" == "n" ] || [ "$option" == "N" ]
+        then
+                echo "Bye"
         else
-                echo "bye"
+                echo "Invalid user input"
         fi
+
+
 }
-
-
-
-user-input
+user_input
 validation_1
 validation_2
-
