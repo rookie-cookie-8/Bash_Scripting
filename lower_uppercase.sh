@@ -11,3 +11,16 @@ then
 else
         echo "Bye"
 fi
+-------------------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+echo "Enter the name"
+read name
+
+if [ "$name" == "${name^^}" ]
+then
+        echo "Name is in upper case"
+else
+        echo "Name is on lower case"
+fi
+
