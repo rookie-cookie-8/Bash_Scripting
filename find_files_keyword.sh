@@ -1,40 +1,62 @@
-#script -> User can enter file location and keyword. 
-#Script will check whether the user specified keyword exist within the file or not. 
+#user enter the filepath and filename
+#script checks whether its a normal file, exists or not
+# if file found, check for the keyword
+#if keyword found, display the keyword with the line number where the match is found 
 
-#!/bin/bash
+!/bin/bash
 
-echo "Enter the full file path"
-read file
+echo "Enter the filepath"
+read filepath
 echo "Enter the keyword"
 read keyword
 
-if [ -z "$file" ] || [ -z "$keyword" ]
+if [ -z "$filepath" ] || [ -z "$keyword" ]
 then
-        if [ -z "$file" ] && [ -n "$keyword" ]
+        if [ -n "$filepath" ] && [ -z "$keyword" ]
         then
-                echo "Path field empty"
-        elif [ -n "$file" ] && [ -z "$keyword" ]
+                echo "Keyword field is empty"
+        elif [ -z "$filepath" ] && [ -n "$keyword" ]
         then
-                echo "Keyword field empty"
+                echo "Filepath field is empty"
         else
-                echo "Soemthing wrong with user input"
+                echo "Issues with the user input"
         fi
-
-elif [ -n "$keyword" ] && [ -n "$file" ]
+elif [ -n "$filepath" ] && [ -n "$keyword" ]
 then
-        if [ -s $file ]
+        if [ -e $filepath ]
         then
-                cat $file | grep -i $keyword 1>output
-                if [ -s ./output ]
+                if [ -f $filepath ]
                 then
-                        echo "*****************"
-                        cat output
+                        if [ -s $filepath ]
+                        then
+                                cat $filepath | grep -ni "$keyword" > something_found 
+                                echo "*********************************"
+                                if [ -s ./something_found ]
+                                then
+                                        echo "Would you like to view the file contents"
+                                        read option 
+                                        if [ "$option" == "y" ]
+                                        then
+                                                echo "---------------------------"
+                                                cat ./something_found
+                                        else
+                                                echo "Bye for now"
+                                        fi
+                                else
+                                        echo "Empty"
+                                fi
+                        else
+                                echo "FIle found but its empty"
+                        fi
+                elif [ -d "$filepath" ]
+                then
+                        echo "Its a directory, cannot do anything"
                 else
-                        echo "Keyword not found"
+                        echo "Cannot recognize, something is wrong"
                 fi
         else
-                echo "File not found"
+                echo "FIle not found"
         fi
-
 fi
-rm -rf ./output
+rm -rf ./something_found
+rm -rf ./1
