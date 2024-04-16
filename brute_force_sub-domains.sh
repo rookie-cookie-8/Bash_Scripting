@@ -1,72 +1,48 @@
-#brute force to find out hostnames related to domain 
+#brute force attack on the domain to find sub-domains / different hostnames
+# file: /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt
 
-#!/bin/bash
-
-echo "ENter the domain i.e. new.com"
-read domain 
-
-echo "Enter the wordlist filepath"
-read file
-
-if [ -z "$domain" ] || [ -z "$file" ]
-then
-        if [ -n "$domain" ] && [ -z "$file" ]
-        then
-                echo "File path field empty"
-        elif [ -z "$domain" ] && [ -n "$file" ]
-        then
-                echo "Domain field empty"
-        else
-                echo "SOmething wrong with user input"
-        fi
-elif [ -n "$domain" ] && [ -n "$file" ]
-then
-        if [ -s $file ]
-        then
-                for sub_domains in $(cat $file)
-                do
-                        host $sub_domains.$domain | grep -i "has address" | cut -d " " -f1,4 2>/dev/null
-                done
-        else
-                echo "File not found"
-        fi
-
-fi
----------------------------------------------------------------------------------------------------------------------------------
 #!/bin/bash
 
 echo "Enter the domain name i.e. google.com"
-read domain 
-echo "Enter the sub-domains file path"
-read file_path
+read domain_name 
+echo "Enter the filepath for brute force"
+read filepath
 
-if [ -z "$domain" ] || [ -z "$file_path" ]
+if [ -z "$domain_name" ] || [ -z "$filepath" ]
 then
-        if [ -n "$domain" ] && [ -z "$file_path" ]
+        if [ -n "$domain_name" ] && [ -z "$filepath" ]
         then
-                echo "File path field is empty"
-        elif [ -z "$domain" ] && [ -n "$file_path" ]
+                echo "Filepath field is empty"
+        elif [ -z "$domain_name" ] && [ -n "$filepath" ]
         then
-                echo "Domain field is empty"
+                echo "Domain name field is empty"
         else
                 echo "Issues with the user input"
         fi
-elif [ -n "$domain" ] && [ -n "$file_path" ]
+
+elif [ -n "$domain_name" ] && [ -n "$filepath" ]
 then
-        if [ -f "$file_path" ] && [ -s "$file_path" ]
+        if [ -f $filepath ]
         then
-                test=1
-                for sub_domains in $(cat $file_path)
+                for hostnames in $(cat $filepath)
                 do
-                        echo "************************************"
-                        echo "Testing $test"
-                        host $sub_domains.$domain | grep -i "has address" | cut -d " " -f1
-                        ((test++))
-
-                done
-        else
-                echo "File not found"
-        fi
+                        host $hostnames.$domain_name  &>/dev/null 
+                        if [ $? -eq 0 ]
+                        then
+                                echo "-----------------------------------"
+                                echo "$hostnames.$domain_name found"
+                                host $hostnames.$domain_name
+                                continue
+                        else
+                                echo "-----------------------------------"
+                                echo "$hostnames.$domain_name does not exists"
+                                sleep 0.5
+                                continue
+                        fi
+                done                                                               
+        else                                                                       
+                echo "-------------------------------------"                       
+                echo "File not found"                                              
+        fi                                                                         
+                                                                                   
 fi
----------------------------------------------------------------------------------------------------------------------------------
-
