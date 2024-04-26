@@ -1,12 +1,11 @@
-#basic multiply while loop
-#check if the multiplication of first and second number 
-#if the result is greater than 1000 then quit, else continue  
+#Basic while loop: User inputs the first number, multiplier, and stop number. 
+#The first number is then multiplied by the multiplier until reaching the stop number
 
 #!/bin/bash
 
 echo "Enter the first number"
 read first
-echo "Enter the Multiplication number"
+echo "Enter the multiplier"
 read multiplier
 echo "Enter the stop number"
 read stop_number
@@ -15,30 +14,40 @@ if [ -z "$first" ] || [ -z "$multiplier" ] || [ -z "$stop_number" ]
 then
         if [ -n "$first" ] && [ -z "$multiplier" ] && [ -z "$stop_number" ]
         then
+                echo "**********************************"
                 echo "Multiplier field is empty"
                 echo "Stop number field is empty"
         elif [ -n "$first" ] && [ -n "$multiplier" ] && [ -z "$stop_number" ]
         then
+                echo "**********************************"
                 echo "Stop number field is empty"
         elif [ -n "$first" ] && [ -z "$multiplier" ] && [ -n "$stop_number" ]
         then
+                echo "**********************************"
                 echo "Multiplier field is empty"
-        elif [ -z "$first" ] && [ -n "$multiplier" ] && [ -z "$stop_number" ]
-        then
-                echo "First field is empty"
-                echo "Stop number field is empty"
         elif [ -z "$first" ] && [ -n "$multiplier" ] && [ -n "$stop_number" ]
         then
+                echo "**********************************"
                 echo "First number field is empty"
+        elif [ -z "$first" ] && [ -n "$multiplier" ] && [ -z "$stop_number" ]
+        then
+                echo "**********************************"
+                echo "First number field is empty"
+                echo "Stop number field is empty"
         elif [ -z "$first" ] && [ -z "$multiplier" ] && [ -n "$stop_number" ]
         then
-                echo "First field is empty"
+                echo "**********************************"
+                echo "First number field is empty"
                 echo "Multiplier field is empty"
         elif [ -z "$first" ] && [ -z "$multiplier" ] && [ -z "$stop_number" ]
         then
-                echo "First field is empty"
+                echo "**********************************"
+                echo "First number field is empty"
                 echo "Multiplier field is empty"
                 echo "Stop number field is empty"
+        else
+                echo "**********************************"
+                echo "Something went wrong"
         fi
 elif [ -n "$first" ] && [ -n "$multiplier" ] && [ -n "$stop_number" ]
 then
@@ -47,89 +56,15 @@ then
         then
                 while [ $ans -lt $stop_number ]
                 do
-                        echo "************************************************"
-                        echo "$first * $multiplier --> $ans"
+                        echo "***********************************"
+                        echo "$first times $multiplier --> $ans"
                         ((multiplier++))
                         ans=$((first*multiplier))
-                        sleep 0.2
                 done
         else
-                echo "Result of $first times $multiplier is greater than $stop_number"
+                echo "***********************************"
+                echo "$first times $multiplier --> $ans"
+                echo "$ans is greater than $stop_number"
                 echo "Cant do anything"
         fi
 fi
-
-   
-
----------------------------------------------------------------------------------------------------------------------------------------------------------
-#while loop 
-
-#!/bin/bash
-
-function user-input {
-        echo "Enter the first number"
-        read first
-        echo "Enter the second number"
-        read second
-}
-
-function validation_1 {
-        if [ -z "$first" ] || [ -z "$second" ]
-        then
-                if [ -n "$first" ] && [ -z "$second" ]
-                then
-                        echo "Second number field is empty"
-                        again
-                elif [ -z "$first" ] && [ -n "$second" ]
-                then
-                        echo "First number field is empty"
-                        again
-                else
-                        echo "User input is missing"
-                        again
-                fi
-        fi
-}
-function validation_2 {
-        if [ -n "$first" ] && [ -n "$second" ]
-        then
-                echo "*********************************"
-                echo "First number is: $first"
-                echo "Second number is: $second"
-                echo "*********************************"
-                ans=$((first+second))
-                if (($ans%2==0))
-                then
-                        echo "Result of addition --> $ans"
-                        echo "$ans --> Even number"
-                        echo "*********************************"
-                        again
-                else
-                        echo "Result of addition --> $ans"
-                        echo "$ans --> odd number"
-                        echo "*********************************"
-                        again
-                fi
-        fi
-}
-function again {
-        echo "Would you like to perform the action once again"
-        read option
-        if [ "$option" == "Y" ] || [ "$option" == "y" ]
-        then
-                user-input
-                validation_1
-                validation_2
-        else
-                echo "bye"
-        fi
-}
-
-
-
-user-input
-validation_1
-validation_2
-
-
-
