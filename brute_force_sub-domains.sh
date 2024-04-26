@@ -3,46 +3,63 @@
 
 #!/bin/bash
 
-echo "Enter the domain name i.e. google.com"
-read domain_name 
+echo "Enter the domain name i.e. domain.com"
+read domain
 echo "Enter the filepath for brute force"
 read filepath
 
-if [ -z "$domain_name" ] || [ -z "$filepath" ]
+if [ -z "$domain" ] || [ -z "$filepath" ]
 then
-        if [ -n "$domain_name" ] && [ -z "$filepath" ]
+        if [ -n "$domain" ] && [ -z "$filepath" ]
         then
                 echo "Filepath field is empty"
-        elif [ -z "$domain_name" ] && [ -n "$filepath" ]
+        elif [ -z "$domain" ] && [ -n "$filepath" ]
         then
-                echo "Domain name field is empty"
+                echo "Domain field is empty"
         else
                 echo "Issues with the user input"
         fi
-
-elif [ -n "$domain_name" ] && [ -n "$filepath" ]
+elif [ -n "$domain" ] && [ -n "$filepath" ]
 then
-        if [ -f $filepath ]
+        if [ -e $filepath ]
         then
-                for hostnames in $(cat $filepath)
-                do
-                        host $hostnames.$domain_name  &>/dev/null 
-                        if [ $? -eq 0 ]
-                        then
-                                echo "-----------------------------------"
-                                echo "$hostnames.$domain_name found"
-                                host $hostnames.$domain_name
-                                continue
-                        else
-                                echo "-----------------------------------"
-                                echo "$hostnames.$domain_name does not exists"
-                                sleep 0.5
-                                continue
-                        fi
-                done                                                               
-        else                                                                       
-                echo "-------------------------------------"                       
-                echo "File not found"                                              
-        fi                                                                         
-                                                                                   
+                if [ -f $filepath ]
+                then
+                        echo "********************************************"
+                        echo "Will start brute force attack on $domain"
+                        sleep 2
+
+                        for host_name in $(cat $filepath)
+                        do
+                                host $host_name.$domain > /dev/null
+                                if [ $? -eq 0 ]
+                                then
+                                        echo "********************************************"
+                                        host $host_name.$domain 
+                                        sleep 0.2
+                                        continue
+                                        echo "********************************************"
+                                elif [ $? -eq 1 ]
+                                then
+                                        echo "********************************************"
+                                        echo "$host_name.$domain invalid"
+                                        sleep 0.2
+                                        continue
+                                        echo "********************************************"
+                                else
+                                        echo "Something went wrong with $filepath.$domain"
+                                fi
+                        done
+
+                elif [ -d $filepath ]
+                then
+                        echo "********************************"
+                        echo "Its a directory, cant do anything"
+                else
+                        echo "Unable to identify the file type"
+                fi
+        else
+                echo "********************************"
+                echo "File not found"
+        fi
 fi
