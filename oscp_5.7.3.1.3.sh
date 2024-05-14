@@ -2,36 +2,42 @@
 
 #!/bin/bash
 
-echo "Enter the file path"
+echo "Enter the filepath"
 read filepath
 
 if [ -z "$filepath" ]
 then
-        echo "File path field empty"
+        echo "************************************"
+        echo "File path field is empty"
+        echo "************************************"
 else
         if [ -e $filepath ]
         then
-                if [ -d $filepath ]
+                if [ -f $filepath ]
                 then
-                        echo "Its a directory"
-                elif [ -f $filepath ]
-                then
-                        cat $filepath | grep -i ".js" | cut -d "/" -f5 | sort | uniq > javascript_files
-                        if [ -s ./javascript_files ]
+                        cat $filepath | grep -i ".js" | cut -d "/" -f5 | sort | uniq | cut -d " " -f1 > ./javascript-files
+                        echo "************************************"
+                        if [ -s ./javascript-files ]
                         then
-                                echo "****************************"
-                                cat ./javascript_files
+                                echo "******Javascript files found******"
+                                cat ./javascript-files
                         else
-                                echo "Unable to find Javascript files"
+                                echo "******No Javascript files found******"
                         fi
+                elif [ -d $filepath ]
+                then
+                        echo "************************************"
+                        echo "Its a directory, nothing to do"
+                        echo "************************************"
                 else
-                        echo "Unable to identify file type"
+                        echo "************************************"
+                        echo "Unable to identify the file type"
+                        echo "************************************"
                 fi
         else
-                echo "Unable to locate file"
+                echo "******Invalid file path**************"
         fi
+
 fi
 rm -rf ./1
-rm -rf ./javascript_files
-
-
+rm -rf ./javascript-files
