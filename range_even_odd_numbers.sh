@@ -5,55 +5,67 @@
 
 #!/bin/bash
 
-echo "Enter the first number"
-read first
-echo "Enter the second number"
-read second 
-
-if [ -z "$first" ] || [ -z "$second" ]
+echo "Enter the start number"
+read start_number
+echo "Enter the stop number"
+read stop_number
+if [ -z "$start_number" ] || [ -z "$stop_number" ]
 then
-        if [ -n "$first" ] && [ -z "$second" ]
+        if [ -n "$start_number" ] && [ -z "$stop_number" ]
         then
                 echo "***************************************"
-                echo "Second number field is empty"
-        elif [ -z "$first" ] && [ -n "$second" ]
+                echo "Stop number field is empty"
+                echo "***************************************"
+        elif [ -z "$start_number" ] && [ -n "$stop_number" ]
         then
                 echo "***************************************"
-                echo "First number field is empty"
+                echo "Start number field is empty"
+                echo "***************************************"
         else
                 echo "***************************************"
                 echo "Issues with the user input"
+                echo "***************************************"
         fi
-elif [ -n "$first" ] && [ -n "$second" ]
+elif [ -n "$start_number" ] && [ -n "$stop_number" ]
 then
-        if [ $first -lt $second ]
+        if [ $stop_number -gt $start_number ]
         then
-                echo "******************************************"
-                echo "Would you like to print odd or even number?"
-                read answer
-                if [ "$answer" == "odd" ]
+                echo "*****************************************"
+                echo "Would you like to print odd or even numbers ?"
+                read option
+                if [ "$option" == "odd" ] || [ "$option" == "ODD" ]
                 then
-                        for odd_numbers in $(seq $first $second)
+                        for numbers in $(seq $start_number $stop_number)
                         do
-                                if (($odd_numbers%2!=0))
+                                if (($numbers%2!=0))
                                 then
-                                        echo "Odd number is --> $odd_numbers"
+                                        echo "**********************************"
+                                        echo "Odd number --> $numbers"
+                                else
+                                        continue
                                 fi
                         done
-                elif [ "$answer" == "even" ]
+                elif [ "$option" == "even" ] || [ "$option" == "EVEN" ]
                 then
-                        for even_numbers in $(seq $first $second)
+                        for numbers in $(seq $start_number $stop_number)
                         do
-                                if (($even_numbers%2==0))
+                                if (($numbers%2==0))
                                 then
-                                        echo "Even number is --> $even_numbers"
+                                        echo "**********************************"
+                                        echo "Even number --> $numbers"
+                                else
+                                        continue
                                 fi
                         done
                 else
+                        echo "*****************************************"
                         echo "Invalid user input"
+                        echo "*****************************************"
                 fi
         else
-                echo "Second number is less than first"
+                echo "************************************"
+                echo "Stop number -> $stop_number is less than start_number -> $start_number"
                 echo "Nothing to do"
+                echo "************************************"
         fi
 fi
