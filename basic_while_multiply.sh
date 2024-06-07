@@ -3,79 +3,77 @@
 #if the result of multiplication i.e. first times $multiplier is greater than stop_number .. nothing to do
 #or else do the multiplication until the result is less than stop_number
 
-#!/bin/bash                                                                
+#!/bin/bash
 
 echo "Enter the first number"
 read first
-echo "Enter the multiplier"
+echo "Enter the multiplier number"
 read multiplier
 echo "Enter the stop number"
 read stop_number
+
 
 if [ -z "$first" ] || [ -z "$multiplier" ] || [ -z "$stop_number" ]
 then
         if [ -n "$first" ] && [ -z "$multiplier" ] && [ -z "$stop_number" ]
         then
-                echo "*************************************************"
+                echo "**************************************"
                 echo "Multiplier number field empty"
                 echo "Stop number field empty"
-                echo "*************************************************"
         elif [ -n "$first" ] && [ -n "$multiplier" ] && [ -z "$stop_number" ]
         then
-                echo "*************************************************"
+                echo "**************************************"
                 echo "Stop number field empty"
-                echo "*************************************************"
         elif [ -n "$first" ] && [ -z "$multiplier" ] && [ -n "$stop_number" ]
         then
-                echo "*************************************************"
+                echo "**************************************"
                 echo "Multiplier number field empty"
-                echo "*************************************************"
         elif [ -z "$first" ] && [ -n "$multiplier" ] && [ -n "$stop_number" ]
         then
-                echo "*************************************************"
+                echo "**************************************"
                 echo "First number field empty"
-                echo "*************************************************"
         elif [ -z "$first" ] && [ -z "$multiplier" ] && [ -n "$stop_number" ]
         then
-                echo "*************************************************"
+                echo "**************************************"
                 echo "First number field empty"
                 echo "Multiplier number field empty"
-                echo "*************************************************"
         elif [ -z "$first" ] && [ -n "$multiplier" ] && [ -z "$stop_number" ]
         then
-                echo "*************************************************"
+                echo "**************************************"
                 echo "First number field empty"
                 echo "Stop number field empty"
-                echo "*************************************************"
         elif [ -z "$first" ] && [ -z "$multiplier" ] && [ -z "$stop_number" ]
         then
-                echo "*************************************************"
+                echo "**************************************"
                 echo "First number field empty"
                 echo "Multiplier number field empty"
                 echo "Stop number field empty"
-                echo "*************************************************"
         else
-                echo "*************************************************"
-                echo "Issues with the user input"
-                echo "*************************************************"
+                echo "**************************************"
+                echo "Something went wrong"
         fi
+
 elif [ -n "$first" ] && [ -n "$multiplier" ] && [ -n "$stop_number" ]
 then
         ans=$((first*multiplier))
-        if [ $ans -lt $stop_number ]
+        if [ $ans -le $stop_number ]
         then
-                while [ $ans -lt $stop_number ]
+                while [ $ans -le $stop_number ]
                 do
-                echo "*************************************************"
-                        echo "$first times $multiplier --> $ans"
-                        ((multiplier++))
                         ans=$((first*multiplier))
+                        echo "*******************************************"
+                        echo "$first times $multiplier  --> $ans"
+                        ((multiplier++))
+                        sleep 0.5
+
                 done
-        else
-                echo "*************************************************"
+        elif [ $ans -gt $stop_number ]
+        then
+                echo "**************************************"
                 echo "$first times $multiplier --> $ans"
-                echo "$ans is greater than $stop_number"
-                echo "Cant do anything"
-                echo "*************************************************"
+                echo "$ans greater than or equal to $stop_number"
+                echo "Nothing to do"
+        else
+                echo "Something went wrong"
         fi
 fi
