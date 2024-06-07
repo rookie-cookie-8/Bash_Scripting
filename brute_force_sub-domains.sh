@@ -2,51 +2,65 @@
 
 #!/bin/bash
 
-echo "Enter the domain name i.e. google.com"
+echo "******Brute force to find sub-domains********"
+sleep 0.5
+echo "Enter the domain i.e. google.com"
 read domain
-echo "Enter the file for the brute force"
-read filename
+echo "Enter the file for brute force"
+read file
 
-if [ -z "$domain" ] || [ -z "$filename" ]
+if [ -z "$domain" ] || [ -z "$file" ]
 then
-        if [ -n "$domain" ] && [ -z "$filename" ]
+        if [ -n "$domain" ] && [ -z "$file" ]
         then
-                echo "***************************************"
-                echo "Filename field is empty"
-                echo "***************************************"
-        elif [ -z "$domain" ] && [ -n "$filename" ]
+                echo "*****************************"
+                echo "File path field is empty"
+        elif [ -z "$domain" ] && [ -n "$file" ]
         then
-                echo "***************************************"
+                echo "*****************************"
                 echo "Domain name field is empty"
-                echo "***************************************"
-        else
-                echo "***************************************"
-                echo "Issues with the user input"
-                echo "***************************************"
-        fi
-elif [ -n "$domain" ] && [ -n "$filename" ]
-then
-        if [ -f $filename ]
+        elif [ -z "$domain" ] && [ -z "$file" ]
         then
-                for domain_name in $(cat $filename)
-                do
-                        host $domain_name.$domain 1>/dev/null
-                        if [ $? -eq 0 ]
-                        then
-                                echo "**************************************"
-                                host $domain_name.$domain | cut -d " " -f1,4
-                                sleep 0.2
-                        else
-                                echo "**************************************"
-                                echo "$domain_name.$domain --> Public DNS records not found"
-                                sleep 0.2
-                                continue
-                        fi
-
-                done
+                echo "*****************************"
+                echo "Domain name field is empty"
+                echo "File path field is empty"
         else
-                echo "***************************************"
+                echo "*****************************"
+                echo "Something went wrong"
+        fi
+elif [ -n "$domain" ] && [ -n "$file" ]
+then
+        if [ -e $file ]
+        then
+                if [ -d $file ]
+                then
+                        echo "************************************"
+                        echo "Its a directory, nothing can be done"
+                elif [ -s $file ]
+                then
+                        for hostnames in $(cat $file)
+                        do
+                                host $hostnames.$domain &>/dev/null
+                                if [ $? -eq 0 ]
+                                then
+                                        echo "************************************"
+                                        host $hostnames.$domain | cut -d " " -f1,4
+                                        host $hostnames.$domain | cut -d " " -f1,4 >> sub-domains
+                                        sleep 0.5
+                                else
+                                        echo "************************************"
+                                        echo "$hostnames.$domain not found"
+                                        sleep 0.5
+                                        continue
+                                fi
+                        done
+                else
+                        echo "************************************"
+                        echo "Something went wrong"
+                fi
+        else
+                echo "***************************"
                 echo "File not found"
-                echo "***************************************"
         fi
 fi
+rm -rf ./1
