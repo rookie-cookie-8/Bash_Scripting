@@ -27,3 +27,6 @@ f=$USER
 echo "Current login user is : $f"
 echo "*******************************************************"
 echo "Current login user: $(whoami)"
+echo "*******************************************************"
+a=$USER
+echo $a
