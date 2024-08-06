@@ -55,3 +55,82 @@ fi
 rm -rf ./1
 rm -rf ./username_lists
 rm -rf ./uid_lists
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#advanced
+
+#!/bin/bash
+
+echo "Enter the username"
+read username
+echo "Enter the uid number"
+read uid_number
+
+if [ -z "$username" ] || [ -z "$uid_number" ]
+then
+        if [ -n "$username" ] && [ -z "$uid_number" ]
+        then
+                echo "***************************************"
+                echo "UID field is empty"
+        elif [ -z "$username" ] && [ -n "$uid_number" ]
+        then
+                echo "***************************************"
+                echo "Username field is empty"
+        elif [ -z "$username" ] && [ -z "$uid_number" ]
+        then
+                echo "***************************************"
+                echo "Username field is empty"
+                echo "UID field is empty"
+        else
+                echo "***************************************"
+                echo "Issues with the user input"
+        fi
+elif [ -n "$username" ] && [ -n "$uid_number" ]
+then
+        if [[ "$username" =~ [a-zA-Z] ]] && [[ "$uid_number" =~ ^[0-9]+$ ]]
+        then
+                cat /etc/passwd | cut -d ":" -f1 | grep -i "$username" > ./username_lists
+                cat /etc/passwd | cut -d ":" -f3 | grep -i "$uid_number" > ./uid_number_lists
+                if [ ! -s ./username_lists ] && [ ! -s ./uid_number_lists ]
+                then
+                        echo "**********************************"
+                        echo "Username is available --> $username"
+                        echo "UID is available --> $uid_number"
+                elif [ -s ./username_lists ] && [ ! -s ./uid_number_lists ]
+                then
+                        echo "**********************************"
+                        echo "Username is not available --> $username"
+                        echo "UID is available --> $uid_number"
+                elif [ ! -s ./username_lists ] && [ -s ./uid_number_lists ]
+                then
+                        echo "**********************************"
+                        echo "Username is available --> $username"
+                        echo "UID is not available --> $uid_number"
+                elif [ -s ./username_lists ] && [ -s ./uid_number_lists ]
+                then
+                        echo "**********************************"
+                        echo "Username is not available --> $username"
+                        echo "UID is not available --> $uid_number"
+                else
+                        echo "**********************************"
+                        echo "Something went wrong"
+                fi
+        elif [[ ! "$username" =~ [a-zA-Z] ]] || [[ ! "$uid_number" =~ ^[0-9]+$ ]]
+        then
+                if [[ "$username" =~ [a-zA-Z] ]] && [[ ! "$uid_number" =~ ^[0-9]+$ ]]
+                then
+                        echo "************************************"
+                        echo "UID field can contain only numeric digits"
+                elif [[ ! "$username" =~ [a-zA-Z] ]] && [[ "$uid_number" =~ ^[0-9]+$ ]]
+                then
+                        echo "************************************"
+                        echo "Username field can only contain alpahbets"
+                else
+                        echo "************************************"
+                        echo "Issues with the user input"
+                fi
+        fi
+fi
+rm -rf ./1
+rm -rf ./username_lists
+rm -rf ./uid_number_lists
+
