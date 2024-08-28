@@ -126,4 +126,88 @@ then
                 fi
         fi
 fi
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+echo "Enter the total cost of the house"
+read total
+echo "Enter the credit score"
+read credit
+
+function total_check {
+         [[ $total =~ ^[0-9]+$ ]]
+}
+function credit_check {
+          [[ $credit =~ ^[0-9]+$ ]]
+}
+function total_wrong {
+         [[ ! $total =~ ^[0-9]+$ ]]
+}
+function credit_wrong {
+          [[ ! $credit =~ ^[0-9]+$ ]]
+}
+
+
+if [ -z "$total" ] || [ -z "$credit" ]
+then
+        if [ -n "$total" ] && [ -z "$credit" ]
+        then
+                echo "*********************************"
+                echo "Credit score field is empty"
+        elif [ -z "$total" ] && [ -n "$credit" ]
+        then
+                echo "*********************************"
+                echo "Total cost field is empty"
+        elif [ -z "$total" ] && [ -z "$credit" ]
+        then
+                echo "*********************************"
+                echo "Total cost field is empty"
+                echo "Credit score field is empty"
+        else
+                echo "*********************************"
+                echo "Issues with the user input"
+        fi
+elif [ -n "$total" ] && [ -n "$credit" ]
+then
+        if total_wrong || credit_wrong
+        then
+                if total_check && credit_wrong
+                then
+                        echo "****************************"
+                        echo "Credit score field can contain only numeric digits"
+                elif total_wrong && credit_check
+                then
+                        echo "****************************"
+                        echo "Total cost field can contain only numeric digits"
+                elif total_wrong && credit_wrong
+                then
+                        echo "****************************"
+                        echo "Total cost field can contain only numeric digits"
+                        echo "Credit score field can contain only numeric digits"
+                else
+                        echo "****************************"
+                        echo "Something went wrong with user input validation"
+                fi
+        elif total_check && credit_check
+        then
+                if [ "$credit" -ge 750 ]
+                then
+                        echo "*******************************"
+                        ans=$(($total*10/100))
+                        echo "Total cost of the house --> $total"
+                        echo "Down payment --> $ans"
+                elif [ "$credit" -ge 650 ] && [ "$credit" -lt 749 ]
+                then
+                        echo "*******************************"
+                        ans=$(($total*20/100))
+                        echo "Total cost of the house --> $total"
+                        echo "Down payment --> $ans"
+                else
+                        echo "*******************************"
+                        echo "Cant process the application"
+
+                fi
+        fi
+fi
+
 
