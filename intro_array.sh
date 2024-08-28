@@ -40,3 +40,26 @@ do
 done
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+name=("Hrishi" "Ghosalkar" 32)
+
+
+for names in ${name[@]}
+do
+        if [ "$names" == "Ghosalkar" ]
+        then
+                echo "Middle name is --> $names"
+                continue
+        elif [ "$names" == "Hrishi" ]
+        then
+                echo "First name is --> $names"
+                continue
+        elif [ "$names" == "32" ]
+        then
+                echo "Age is --> $names"
+                continue
+        fi
+
+done
+
