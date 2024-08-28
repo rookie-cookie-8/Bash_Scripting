@@ -41,3 +41,37 @@ else
 fi
 rm -rf ./1
 rm -rf ./javascript-files
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+echo "Enter the file path"
+read filepath
+
+if [ -z "$filepath" ]
+then
+        echo "*********************************"
+        echo "Filepath field is empty"
+else
+        if [ -f $filepath ]
+        then
+                if [ -s $filepath ]
+                then
+                        echo "*********************************************"
+                        cat $filepath | grep -i ".js" | cut -d "/" -f5 | cut -d " " -f1 | sort | uniq
+                else
+                        echo "***************************"
+                        echo "File is empty"
+                fi
+        elif [ -d $filepath ]
+        then
+                echo "********************************"
+                echo "Its a directory"
+
+        else
+                echo "********************************"
+                echo "Invalid file path or Unable to identify the file type"
+        fi
+
+fi
+
