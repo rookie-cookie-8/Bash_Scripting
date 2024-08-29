@@ -199,3 +199,84 @@ then
                 fi
         fi
 fi
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+echo "Enter the first number"
+read first
+echo "Enter the second number"
+read second
+
+function first_check {
+        [[ $first =~ ^[0-9-]+$ ]]
+}
+function second_check {
+        [[ $second =~ ^[0-9-]+$ ]]
+}
+function first_wrong {
+        [[ ! $first =~ ^[0-9-]+$ ]]
+}
+function second_wrong {
+        [[ ! $second =~ ^[0-9-]+$ ]]
+}
+if [ -z "$first" ] || [ -z "$second" ]
+then
+        if [ -n "$first" ] && [ -z "$second" ]
+        then
+                echo "*************************************"
+                echo "Second number field is empty"
+        elif [ -z "$first" ] && [ -n "$second" ]
+        then
+                echo "*************************************"
+                echo "First number field is empty"
+        elif [ -z "$first" ] && [ -z "$second" ]
+        then
+                echo "*************************************"
+                echo "First number field is empty"
+                echo "Second number field is empty"
+        else
+                echo "*************************************"
+                echo "Issues with the user input"
+        fi
+elif [ -n "$first" ] && [ -n "$second" ]
+then
+        if first_wrong || second_wrong
+        then
+                if first_check && second_wrong
+                then
+                        echo "************************************"
+                        echo "Second number field must contain only numeric digits"
+                elif first_wrong && second_check
+                then
+                        echo "************************************"
+                        echo "First number field must contain only numeric digits"
+                elif first_wrong && second_wrong
+                then
+                        echo "************************************"
+                        echo "First number field must contain only numeric digits"
+                        echo "Second number field must contain only numeric digits"
+                else
+                        echo "************************************"
+                        echo "Something went wrong with user input validation"
+                fi
+        elif first_check && second_check
+        then
+                ans=$((first+second))
+                if (($ans%2==0))
+                then
+                        echo "*******************************"
+                        echo "$first plus $second --> $ans"
+                        echo "$ans --> Even number"
+                elif (($ans%2!=0))
+                then
+                        echo "*******************************"
+                        echo "$first plus $second --> $ans"
+                        echo "$ans --> Odd number"
+                else
+                        echo "*******************************"
+                        echo "Something went wrong with calculation"
+                fi
+        fi
+fi
+
