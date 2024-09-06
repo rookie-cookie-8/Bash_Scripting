@@ -45,33 +45,39 @@ rm -rf ./javascript-files
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #!/bin/bash
 
-echo "Enter the file path"
+echo "Enter the full file path"
 read filepath
 
 if [ -z "$filepath" ]
 then
         echo "*********************************"
-        echo "Filepath field is empty"
+        echo "File path field is empty"
 else
-        if [ -f $filepath ]
+        if [ -e $filepath ]
         then
-                if [ -s $filepath ]
+                if [ -f $filepath ]
                 then
-                        echo "*********************************************"
-                        cat $filepath | grep -i ".js" | cut -d "/" -f5 | cut -d " " -f1 | sort | uniq
+                        cat $filepath | grep -i "js" | cut -d "/" -f5 | cut -d " " -f1 | sort | uniq 1> javascript_files
+                        if [ -s ./javascript_files ]
+                        then
+                                echo "******Javascript file found********"
+                                cat javascript_files
+                        else
+                                echo "******No Javascript file found********"
+                        fi
+                elif [ -d $filepath ]
+                then
+                        echo "***********************************"
+                        echo "Its a directory"
                 else
-                        echo "***************************"
-                        echo "File is empty"
+                        echo "Invalid file type"
                 fi
-        elif [ -d $filepath ]
-        then
-                echo "********************************"
-                echo "Its a directory"
-
         else
                 echo "********************************"
-                echo "Invalid file path or Unable to identify the file type"
+                echo "File not found"
         fi
 
 fi
+rm -rf ./1
+rm -rf ./javascript_files
 
