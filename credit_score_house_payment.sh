@@ -134,80 +134,82 @@ read total
 echo "Enter the credit score"
 read credit
 
-function total_check {
-         [[ $total =~ ^[0-9]+$ ]]
-}
-function credit_check {
-          [[ $credit =~ ^[0-9]+$ ]]
+function total_right {
+        [[ $total =~ ^[0-9]+$ ]]
 }
 function total_wrong {
-         [[ ! $total =~ ^[0-9]+$ ]]
+        [[ ! $total =~ ^[0-9]+$ ]]
+}
+function credit_right {
+        [[ $credit =~ ^[0-9]+$ ]]
 }
 function credit_wrong {
-          [[ ! $credit =~ ^[0-9]+$ ]]
+        [[ ! $credit =~ ^[0-9]+$ ]]
 }
-
 
 if [ -z "$total" ] || [ -z "$credit" ]
 then
         if [ -n "$total" ] && [ -z "$credit" ]
         then
-                echo "*********************************"
+                echo "**********************************"
                 echo "Credit score field is empty"
         elif [ -z "$total" ] && [ -n "$credit" ]
         then
-                echo "*********************************"
+                echo "**********************************"
                 echo "Total cost field is empty"
         elif [ -z "$total" ] && [ -z "$credit" ]
         then
-                echo "*********************************"
+                echo "**********************************"
                 echo "Total cost field is empty"
                 echo "Credit score field is empty"
         else
-                echo "*********************************"
+                echo "**********************************"
                 echo "Issues with the user input"
         fi
 elif [ -n "$total" ] && [ -n "$credit" ]
 then
         if total_wrong || credit_wrong
         then
-                if total_check && credit_wrong
+                if total_right && credit_wrong
                 then
-                        echo "****************************"
-                        echo "Credit score field can contain only numeric digits"
-                elif total_wrong && credit_check
+                        echo "**********************************"
+                        echo "Credit score field must contain only digits"
+                elif total_wrong && credit_right
                 then
-                        echo "****************************"
-                        echo "Total cost field can contain only numeric digits"
+                        echo "**********************************"
+                        echo "Total cost field must contain only digits"
                 elif total_wrong && credit_wrong
                 then
-                        echo "****************************"
-                        echo "Total cost field can contain only numeric digits"
-                        echo "Credit score field can contain only numeric digits"
+                        echo "**********************************"
+                        echo "Total cost field must contain only digits"
+                        echo "Credit score field must contain only digits"
                 else
-                        echo "****************************"
-                        echo "Something went wrong with user input validation"
+                        echo "**********************************"
+                        echo "Issues with user input validation"
                 fi
-        elif total_check && credit_check
+        elif total_right && credit_right
         then
-                if [ "$credit" -ge 750 ]
+                if [ $credit -ge 750 ]
                 then
-                        echo "*******************************"
-                        ans=$(($total*10/100))
+                        echo "*************************************"
+                        cost=$(($total*10/100))
                         echo "Total cost of the house --> $total"
-                        echo "Down payment --> $ans"
-                elif [ "$credit" -ge 650 ] && [ "$credit" -lt 749 ]
+                        echo "Down payment --> $cost"
+                elif [ $credit -lt 749 ] && [ $credit -ge 650 ]
                 then
-                        echo "*******************************"
-                        ans=$(($total*20/100))
+                        echo "*************************************"
+                        cost=$(($total*20/100))
                         echo "Total cost of the house --> $total"
-                        echo "Down payment --> $ans"
+                        echo "Down payment --> $cost"
+                elif [ $credit -lt 649 ] && [ $credit -ge 600 ]
+                then
+                        echo "*************************************"
+                        cost=$(($total*30/100))
+                        echo "Total cost of the house --> $total"
+                        echo "Down payment --> $cost"
                 else
-                        echo "*******************************"
-                        echo "Cant process the application"
-
+                        echo "*************************************"
+                        echo "Cannot proceed application"
                 fi
         fi
 fi
-
-
