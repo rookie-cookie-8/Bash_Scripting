@@ -126,79 +126,84 @@ read first
 echo "Enter the second number"
 read second
 
-function first_check {
-        [[ "$first" =~ ^-?[0-9]+$ ]]
+
+function first_right {
+        [[ $first =~ ^[0-9-]+$ ]]
 }
-function second_check {
-        [[ "$second" =~ ^-?[0-9]+$ ]]
+function second_right {
+        [[ $second =~ ^[0-9-]+$ ]]
 }
 function first_wrong {
-        [[ ! "$first" =~ ^-?[0-9]+$ ]]
+        [[ ! $first =~ ^[0-9-]+$ ]]
 }
 function second_wrong {
-        [[ ! "$second" =~ ^-?[0-9]+$ ]]
+        [[ ! $second =~ ^[0-9-]+$ ]]
 }
+
 
 
 if [ -z "$first" ] || [ -z "$second" ]
 then
         if [ -n "$first" ] && [ -z "$second" ]
         then
-                echo "************************************"
+                echo "****************************************"
                 echo "Second number field is empty"
         elif [ -z "$first" ] && [ -n "$second" ]
         then
-                echo "************************************"
+                echo "****************************************"
                 echo "First number field is empty"
         elif [ -z "$first" ] && [ -z "$second" ]
         then
-                echo "************************************"
+                echo "****************************************"
                 echo "First number field is empty"
                 echo "Second number field is empty"
         else
-                echo "************************************"
+                echo "****************************************"
                 echo "Issues with the user input"
+
         fi
 elif [ -n "$first" ] && [ -n "$second" ]
 then
         if first_wrong || second_wrong
         then
-                if first_check && second_wrong
+                if first_right && second_wrong
                 then
-                        echo "********************************************"
-                        echo "Second number field can only contain numeric digits"
-                elif first_wrong && second_check
+                        echo "***********************************"
+                        echo "Second number field must contain only digits"
+                elif first_wrong && second_right
                 then
-                        echo "********************************************"
-                        echo "First number field can only contain numeric digits"
+                        echo "***********************************"
+                        echo "First number field must contain only digits"
                 elif first_wrong && second_wrong
                 then
-                        echo "********************************************"
-                        echo "First number field can only contain numeric digits"
-                        echo "Second number field can only contain numeric digits"
+                        echo "***********************************"
+                        echo "First number field must contain only digits"
+                        echo "Second number field must contain only digits"
                 else
-                        echo "********************************************"
-                        echo "Validation went wrong"
+                        echo "***********************************"
+                        echo "Issues with user input validation"
+
                 fi
-        elif first_check && second_check
+        elif first_right && second_right
         then
-                ans=$((first+second))
+                ans=$(($first+$second))
                 if (($ans%2==0))
                 then
-                        echo "**************************************"
+                        echo "*************************************"
                         echo "$first plus $second --> $ans"
-                        echo "$ans --> Even number"
+                        echo "$ans is even number"
                 elif (($ans%2!=0))
                 then
-                        echo "**************************************"
+                        echo "*************************************"
                         echo "$first plus $second --> $ans"
-                        echo "$ans --> Odd number"
+                        echo "$ans is odd number"
                 else
-                        echo "**************************************"
-                        echo "Something went wrong with addition"
+                        echo "*************************************"
+                        echo "Something went wrong with the calculations"
                 fi
         fi
 fi
+
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 #!/bin/bash
