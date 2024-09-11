@@ -224,3 +224,143 @@ then
 
 
 fi
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+echo "Enter the first number"
+read first
+echo "Enter the multiplier number"
+read multiplier
+echo "Enter the stop number"
+read stop_number
+
+function first_right {
+        [[ $first =~ ^[0-9]+$ ]]
+}
+function first_wrong {
+        [[ ! $first =~ ^[0-9]+$ ]]
+}
+function multiplier_right {
+        [[ $multiplier =~ ^[0-9]+$ ]]
+}
+function multiplier_wrong {
+        [[ ! $multiplier =~ ^[0-9]+$ ]]
+}
+function stop_right {
+        [[ $stop_number =~ ^[0-9]+$ ]]
+}
+function stop_wrong {
+        [[ ! $stop_number =~ ^[0-9]+$ ]]
+}
+
+if [ -z "$first" ] || [ -z "$multiplier" ] || [ -z "$stop_number" ]
+then
+        if [ -n "$first" ] && [ -z "$multiplier" ] && [ -z "$stop_number" ]
+        then
+                echo "**********************************"
+                echo "Multiplier number field is empty"
+                echo "Stop number field is empty"
+        elif [ -n "$first" ] && [ -n "$multiplier" ] && [ -z "$stop_number" ]
+        then
+                echo "**********************************"
+                echo "Stop number field is empty"
+        elif [ -n "$first" ] && [ -z "$multiplier" ] && [ -n "$stop_number" ]
+        then
+                echo "**********************************"
+                echo "Multiplier number field is empty"
+        elif [ -z "$first" ] && [ -z "$multiplier" ] && [ -n "$stop_number" ]
+        then
+                echo "**********************************"
+                echo "First number field is empty"
+                echo "Multiplier number field is empty"
+        elif [ -z "$first" ] && [ -n "$multiplier" ] && [ -n "$stop_number" ]
+        then
+                echo "**********************************"
+                echo "First number field is empty"
+        elif [ -z "$first" ] && [ -n "$multiplier" ] && [ -z "$stop_number" ]
+        then
+                echo "**********************************"
+                echo "First number field is empty"
+                echo "Stop number field is empty"
+        elif [ -z "$first" ] && [ -z "$multiplier" ] && [ -z "$stop_number" ]
+        then
+                echo "**********************************"
+                echo "First number field is empty"
+                echo "Multiplier number field is empty"
+                echo "Stop number field is empty"
+        else
+                echo "**********************************"
+                echo "Issues with the user input"
+        fi
+
+elif [ -n "$first" ] && [ -n "$multiplier" ] && [ -n "$stop_number" ]
+then
+        if first_wrong || multiplier_wrong || stop_wrong
+        then
+                if first_right && multiplier_wrong && stop_wrong
+                then
+                        echo "*************************************"
+                        echo "Multiplier field must contain only digits"
+                        echo "Stop number field must contain only digits"
+                elif first_right && multiplier_right && stop_wrong
+                then
+                        echo "*************************************"
+                        echo "Stop number field must contain only digits"
+                elif first_right && multiplier_wrong && stop_right
+                then
+                        echo "*************************************"
+                        echo "Multiplier number field must contain only digits"
+                elif first_wrong && multiplier_wrong && stop_right
+                then
+                        echo "*************************************"
+                        echo "First number field must contain only digits"
+                        echo "Multiplier number field must contain only digits"
+                elif first_wrong && multiplier_right && stop_right
+                then
+                        echo "*************************************"
+                        echo "First number field must contain only digits"
+                elif first_wrong && multiplier_right && stop_wrong
+                then
+                        echo "*************************************"
+                        echo "First number field must contain only digits"
+                        echo "Stop number field must contain only digits"
+                elif first_wrong && multiplier_wrong && stop_wrong
+                then
+                        echo "*************************************"
+                        echo "First number field must contain only digits"
+                        echo "Multiplier number field must contain only digits"
+                        echo "Stop number field must contain only digits"
+                fi
+        elif first_right && multiplier_right && stop_right
+        then
+                ans=$(($first*$multiplier))
+                if [ $ans -lt $stop_number ]
+                then
+                        while [ $ans -lt $stop_number ]
+                        do
+                                echo "**********************************"
+                                echo "$first times $multiplier --> $ans"
+                                ((multiplier++))
+                                ans=$(($first*$multiplier))
+                                sleep 0.5
+                        done
+                elif [ $ans -eq $stop_number ]
+                then
+                        echo "***************************************"
+                        echo "$first times $multiplier --> $ans"
+                        echo "$ans is equal to $stop_number"
+                        echo "Nothing can be done"
+                elif [ $ans -gt $stop_number ]
+                then
+                        echo "***************************************"
+                        echo "$first times $multiplier --> $ans"
+                        echo "$ans is greather than $stop_number"
+                        echo "Nothing can be done"
+                else
+                        echo "***************************************"
+                        echo "Issues with calculation"
+                fi
+
+        fi
+fi
