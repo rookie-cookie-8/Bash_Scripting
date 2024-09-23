@@ -146,7 +146,6 @@ function credit_right {
 function credit_wrong {
         [[ ! $credit =~ ^[0-9]+$ ]]
 }
-
 if [ -z "$total" ] || [ -z "$credit" ]
 then
         if [ -n "$total" ] && [ -z "$credit" ]
@@ -189,27 +188,27 @@ then
                 fi
         elif total_right && credit_right
         then
-                if [ $credit -ge 750 ]
+                if [ $credit -gt 750 ] || [ $credit -eq 750 ]
                 then
-                        echo "*************************************"
-                        cost=$(($total*10/100))
+                        echo "************************************"
+                        down=$(($total*10/100))
                         echo "Total cost of the house --> $total"
-                        echo "Down payment --> $cost"
-                elif [ $credit -lt 749 ] && [ $credit -ge 650 ]
+                        echo "Down payment --> $down"
+                elif [ $credit -gt 650 ] || [ $credit -eq 650 ]
                 then
-                        echo "*************************************"
-                        cost=$(($total*20/100))
+                        echo "************************************"
+                        down=$(($total*20/100))
                         echo "Total cost of the house --> $total"
-                        echo "Down payment --> $cost"
-                elif [ $credit -lt 649 ] && [ $credit -ge 600 ]
+                        echo "Down payment --> $down"
+                elif [ $credit -gt 600 ] || [ $credit -eq 600 ]
                 then
-                        echo "*************************************"
-                        cost=$(($total*30/100))
+                        echo "************************************"
+                        down=$(($total*30/100))
                         echo "Total cost of the house --> $total"
-                        echo "Down payment --> $cost"
+                        echo "Down payment --> $down"
                 else
-                        echo "*************************************"
-                        echo "Cannot proceed application"
+                        echo "************************************"
+                        echo "Cannot proceed the application"
                 fi
         fi
 fi
