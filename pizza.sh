@@ -137,103 +137,200 @@ fi
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #!/bin/bash
 
-echo "Enter the pizza size i.e. l,m or s"
-read pizza_size
-echo "Would like to have extra cheese y or n"
+echo "Enter the pizza size i.e. m, l, s"
+read pizza
+echo "Extra cheese y/n"
 read cheese
-echo "Would you like to have extra toppings y or n"
+echo "Extra toppings y/n"
 read toppings
 
-if [ -z "$pizza_size" ] || [ -z "$cheese" ] || [ -z "$toppings" ]
-then
-        if [ -n "$pizza_size" ] && ( [ -z "$cheese" ] && [ -z "$toppings" ] )
-        then
-                echo "Cheese field is empty"
-                echo "Toppings filed is empty"
-        elif [ -z "$cheese" ] && ( [ -n "$pizza_size" ] && [ -n "$toppings" ] )
-        then
-                echo "Cheese field is empty"
-        elif [ -z "$toppings" ] && ( [ -n "$pizza_size" ] && [ -n "$cheese" ] )
-        then
-                echo "toppings field is empty"
-        elif [ -n "$cheese" ] && ( [ -z "$pizza_size" ] && [ -z "$toppings" ] )
-        then
-                echo "pizza size field is empty"
-                echo "Toppings filed is empty"
-        elif [ -z "$toppings" ] && ( [ -n "$pizza_size" ] && [ -n "$cheese" ] )
-        then
-                echo "toppings field is empty"
-        elif [ -z "$pizza_size" ] && ( [ -n "$toppings" ] && [ -n "$cheese" ] )
-        then
-                echo "pizza size field is empty"
-        elif [ -n "$toppings" ] && ( [ -z "$pizza_size" ] && [ -z "$cheese" ] )
-        then
-                echo "pizza size field is empty"
-                echo "cheese filed is empty"
-        elif [ -z "$cheese" ] && ( [ -n "$pizza_size" ] && [ -n "$toppings" ] )
-        then
-                echo "cheese field is empty"
-        elif [ -z "$pizza_size" ] && ( [ -n "$toppings" ] && [ -n "$cheese" ] )
-        then
-                echo "pizza size field is empty"
-        else
-                echo "Soemthing wrong with the user input"
-        fi
-elif [ -n "$pizza_size" ] && [ -n "$cheese" ] && [ -n "$toppings" ]
-then
-        if [ "$pizza_size" == "l" ] && [ "$cheese" == "n" ] && [ "$toppings" == "n" ]
-        then
-                echo "Large pizza with no extra cheese and no extra toppings"
-                echo "Total cost --> 200"
-        elif [ "$pizza_size" == "l" ] && [ "$cheese" == "y" ] && [ "$toppings" == "n" ]
-        then
-                echo "Large pizza with extra cheese and no toppings"
-                echo "Total cost --> 270"
-        elif [ "$pizza_size" == "l" ] && [ "$cheese" == "n" ] && [ "$toppings" == "y" ]
-        then
-                echo "Large pizza with no extra cheese and extra toppings"
-                echo "Total cost --> 230"
-        elif [ "$pizza_size" == "l" ] && [ "$cheese" == "y" ] && [ "$toppings" == "y" ]
-        then
-                echo "Large pizza with extra cheese and extra toppings"
-                echo "Total cost --> 300"
-        elif [ "$pizza_size" == "m" ] && [ "$cheese" == "n" ] && [ "$toppings" == "n" ]
-        then
-                echo "Large pizza with no extra cheese and no extra toppings"
-                echo "Total cost --> 150"
-        elif [ "$pizza_size" == "m" ] && [ "$cheese" == "y" ] && [ "$toppings" == "n" ]
-        then
-                echo "Large pizza with extra cheese and no toppings"
-                echo "Total cost --> 220"
-        elif [ "$pizza_size" == "m" ] && [ "$cheese" == "n" ] && [ "$toppings" == "y" ]
-        then
-                echo "Large pizza with no extra cheese and extra toppings"
-                echo "Total cost --> 180"
-        elif [ "$pizza_size" == "m" ] && [ "$cheese" == "y" ] && [ "$toppings" == "y" ]
-        then
-                echo "Large pizza with extra cheese and extra toppings"
-                echo "Total cost --> 250"
-        elif [ "$pizza_size" == "s" ] && [ "$cheese" == "n" ] && [ "$toppings" == "n" ]
-        then
-                echo "Large pizza with no extra cheese and no extra toppings"
-                echo "Total cost --> 100"
-        elif [ "$pizza_size" == "s" ] && [ "$cheese" == "y" ] && [ "$toppings" == "n" ]
-        then
-                echo "Large pizza with extra cheese and no toppings"
-                echo "Total cost --> 170"
-        elif [ "$pizza_size" == "s" ] && [ "$cheese" == "n" ] && [ "$toppings" == "y" ]
-        then
-                echo "Large pizza with no extra cheese and extra toppings"
-                echo "Total cost --> 130"
-        elif [ "$pizza_size" == "s" ] && [ "$cheese" == "y" ] && [ "$toppings" == "y" ]
-        then
-                echo "Large pizza with extra cheese and extra toppings"
-                echo "Total cost --> 200"
-        else
-                echo "Invalid user input, try again"
-        fi
+pizza_small=100
+pizza_medium=150
+pizza_large=200
+extra_cheese=50
+extra_toppings=30
 
+function pizza_right {
+        [[ "$pizza" =~ ^[msl]+$ ]]
+}
+function pizza_wrong {
+        [[ ! "$pizza" =~ ^[msl]+$ ]]
+}
+function cheese_right {
+        [[ "$cheese" =~ [yn] ]]
+}
+function cheese_wrong {
+        [[ ! "$cheese" =~ [yn] ]]
+}
+function toppings_right {
+        [[ "$toppings" =~ [yn] ]]
+}
+function toppings_wrong {
+        [[ ! "$toppings" =~ [yn] ]]
+}
 
+if [ -z "$pizza" ] || [ -z "$cheese" ] || [ -z "$toppings" ]
+then
+        if [ -n "$pizza" ] && [ -z "$cheese" ] && [ -z "$toppings" ]
+        then
+                echo "****************************************"
+                echo "Cheese field is empty"
+                echo "Toppings field is empty"
+        elif [ -n "$pizza" ] && [ -n "$cheese" ] && [ -z "$toppings" ]
+        then
+                echo "****************************************"
+                echo "Toppings field is empty"
+        elif [ -n "$pizza" ] && [ -z "$cheese" ] && [ -n "$toppings" ]
+        then
+                echo "****************************************"
+                echo "Cheese field is empty"
+        elif [ -z "$pizza" ] && [ -z "$cheese" ] && [ -n "$toppings" ]
+        then
+                echo "****************************************"
+                echo "Pizza size field is empty"
+                echo "Cheese field is empty"
+        elif [ -z "$pizza" ] && [ -n "$cheese" ] && [ -n "$toppings" ]
+        then
+                echo "****************************************"
+                echo "Pizza field is empty"
+        elif [ -z "$pizza" ] && [ -n "$cheese" ] && [ -z "$toppings" ]
+        then
+                echo "****************************************"
+                echo "Pizza size field is empty"
+                echo "Toppings field is empty"
+        elif [ -z "$pizza" ] && [ -z "$cheese" ] && [ -z "$toppings" ]
+        then
+                echo "****************************************"
+                echo "Pizza size field is empty"
+                echo "Cheese field is empty"
+                echo "Toppings field is empty"
+        else
+                echo "****************************************"
+                echo "Issues with user input"
+        fi
+elif [ -n "$pizza" ] && [ -n "$cheese" ] && [ -n "$toppings" ]
+then
+        if pizza_wrong || cheese_wrong || toppings_wrong
+        then
+                if pizza_right && cheese_wrong && toppings_wrong
+                then
+                        echo "**************************************"
+                        echo "Cheese and toppings field can only contain y or n alphabets"
+                elif pizza_right && cheese_right && toppings_wrong
+                then
+                        echo "**************************************"
+                        echo "toppings field can only contain y or n alphabets"
+                elif pizza_right && cheese_wrong && toppings_right
+                then
+                        echo "**************************************"
+                        echo "Cheese field can only contain y or n alphabets"
+                elif pizza_wrong && cheese_wrong && toppings_right
+                then
+                        echo "**************************************"
+                        echo "Pizza size field can only contain s,m,l alphabets"
+                        echo "Cheese field can only contain y or n alphabets"
+                elif pizza_wrong && cheese_right && toppings_right
+                then
+                        echo "**************************************"
+                        echo "Pizza size field can only contain s,m,l alphabets"
+                elif pizza_wrong && cheese_right && toppings_wrong
+                then
+                        echo "**************************************"
+                        echo "Pizza size field can only contain s,m,l alphabets"
+                        echo "toppings field can only contain y or n alphabets"
+                elif pizza_wrong && cheese_wrong && toppings_wrong
+                then
+                        echo "**************************************"
+                        echo "Pizza size field can only contain s,m,l alphabets"
+                        echo "cheese field can only contain y or n alphabets"
+                        echo "toppings field can only contain y or n alphabets"
+                else
+                        echo "**************************************"
+                        echo "Issues with user input validation"
+                fi
+        elif pizza_right && cheese_right && toppings_right
+        then
+                if [ "$pizza" == "s" ] && [ "$cheese" == "y" ] && [ "$toppings" == "y" ]
+                then
+                        echo "**********************************************"
+                        echo "Pizza --> Small"
+                        echo "Extra Cheese"
+                        echo "Extra toppings"
+                        total=$(($pizza_small+$extra_cheese+$extra_toppings))
+                        echo "Total is --> $total"
+                elif [ "$pizza" == "s" ] && [ "$cheese" == "n" ] && [ "$toppings" == "y" ]
+                then
+                        echo "**********************************************"
+                        echo "Pizza --> Small"
+                        echo "Extra toppings"
+                        total=$(($pizza_small+$extra_toppings))
+                        echo "Total is --> $total"
+                elif [ "$pizza" == "s" ] && [ "$cheese" == "y" ] && [ "$toppings" == "n" ]
+                then
+                        echo "**********************************************"
+                        echo "Pizza --> Small"
+                        echo "Extra Cheese"
+                        total=$(($pizza_small+$extra_cheese))
+                        echo "Total is --> $total"
+                elif [ "$pizza" == "s" ] && [ "$cheese" == "n" ] && [ "$toppings" == "n" ]
+                then
+                        echo "**********************************************"
+                        echo "Pizza --> Small"
+                        echo "Total is --> $pizza_small"
+                elif [ "$pizza" == "m" ] && [ "$cheese" == "y" ] && [ "$toppings" == "y" ]
+                then
+                        echo "**********************************************"
+                        echo "Pizza --> Medium"
+                        echo "Extra Cheese"
+                        echo "Extra toppings"
+                        total=$(($pizza_medium+$extra_cheese+$extra_toppings))
+                        echo "Total is --> $total"
+                elif [ "$pizza" == "m" ] && [ "$cheese" == "n" ] && [ "$toppings" == "y" ]
+                then
+                        echo "**********************************************"
+                        echo "Pizza --> Medium"
+                        echo "Extra toppings"
+                        total=$(($pizza_medium+$extra_toppings))
+                        echo "Total is --> $total"
+                elif [ "$pizza" == "m" ] && [ "$cheese" == "y" ] && [ "$toppings" == "n" ]
+                then
+                        echo "**********************************************"
+                        echo "Pizza --> Medium"
+                        echo "Extra cheese"
+                        total=$(($pizza_medium+$extra_cheese))
+                        echo "Total is --> $total"
+                elif [ "$pizza" == "m" ] && [ "$cheese" == "n" ] && [ "$toppings" == "n" ]
+                then
+                        echo "**********************************************"
+                        echo "Pizza --> Medium"
+                        echo "Total is --> $pizza_medium"
+                elif [ "$pizza" == "l" ] && [ "$cheese" == "y" ] && [ "$toppings" == "y" ]
+                then
+                        echo "**********************************************"
+                        echo "Pizza --> Large"
+                        echo "Extra Cheese"
+                        echo "Extra toppings"
+                        total=$(($pizza_large+$extra_cheese+$extra_toppings))
+                        echo "Total is --> $total"
+                elif [ "$pizza" == "l" ] && [ "$cheese" == "n" ] && [ "$toppings" == "y" ]
+                then
+                        echo "**********************************************"
+                        echo "Pizza --> Large"
+                        echo "Extra toppings"
+                        total=$(($pizza_large+$extra_toppings))
+                        echo "Total is --> $total"
+                elif [ "$pizza" == "l" ] && [ "$cheese" == "y" ] && [ "$toppings" == "n" ]
+                then
+                        echo "**********************************************"
+                        echo "Pizza --> Large"
+                        echo "Extra cheese"
+                        total=$(($pizza_large+$extra_cheese))
+                        echo "Total is --> $total"
+                elif [ "$pizza" == "l" ] && [ "$cheese" == "n" ] && [ "$toppings" == "n" ]
+                then
+                        echo "**********************************************"
+                        echo "Pizza --> Large"
+                        echo "Total is --> $pizza_large"
+                fi
+        fi
 fi
----------------------------------------------------------------------------------------------------------------------------------------------------
-
