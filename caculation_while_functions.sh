@@ -108,110 +108,87 @@ validation_2
 
 #!/bin/bash
 
-
 function user_input {
         echo "Enter the first number"
         read first
         echo "Enter the second number"
         read second
 }
-
-function try_again {
-        echo "*********************************"
-        echo "Would you like to try again y/n"
-        read answer
-        if [ "$answer" == "y" ]
-        then
-                user_input
-                validation_1
-                validation_2
-                calculation
-        elif [ "$answer" == "n" ]
-        then
-                echo "****Quit***"
-                exit
-        else
-                echo "Invalid option"
-        fi
-}
 function validation_1 {
         if [ -z "$first" ] || [ -z "$second" ]
         then
                 if [ -n "$first" ] && [ -z "$second" ]
                 then
-                        echo "**********************************"
+                        echo "***********************************"
                         echo "Second number field is empty"
                         try_again
                 elif [ -z "$first" ] && [ -n "$second" ]
                 then
-                        echo "**********************************"
+                        echo "***********************************"
                         echo "First number field is empty"
                         try_again
                 elif [ -z "$first" ] && [ -z "$second" ]
                 then
-                        echo "**********************************"
+                        echo "***********************************"
                         echo "First number field is empty"
                         echo "Second number field is empty"
                         try_again
                 else
-                        echo "**********************************"
+                        echo "***********************************"
                         echo "Issues with the user input"
                         try_again
                 fi
-
         fi
 }
-
 function first_right {
-        [[ $first =~ ^[0-9]+$ ]]
+        [[ $first =~ ^[0-9-]+$ ]]
 }
 function first_wrong {
-        [[ ! $first =~ ^[0-9]+$ ]]
+        [[ ! $first =~ ^[0-9-]+$ ]]
 }
 function second_right {
-        [[ $second =~ ^[0-9]+$ ]]
+        [[ $second =~ ^[0-9-]+$ ]]
 }
 function second_wrong {
-        [[ ! $second =~ ^[0-9]+$ ]]
+        [[ ! $second =~ ^[0-9-]+$ ]]
 }
 
 function calculation {
-        echo "************************************"
+        echo "*************************************"
         echo "Press 1 --> Addition"
         echo "Press 2 --> Subtraction"
         echo "Press 3 --> Multiplication"
         echo "Press 4 --> Power"
-        read choice
-        if [ "$choice" == "1" ]
+        read option
+        if [ "$option" == "1" ]
         then
+                echo "**********************************"
                 ans=$(($first+$second))
-                echo "************************************"
                 echo "$first plus $second --> $ans"
                 try_again
-        elif [ "$choice" == "2" ]
+        elif [ "$option" == "2" ]
         then
+                echo "**********************************"
                 ans=$(($first-$second))
-                echo "************************************"
                 echo "$first minus $second --> $ans"
                 try_again
-        elif [ "$choice" == "3" ]
+        elif [ "$option" == "3" ]
         then
+                echo "**********************************"
                 ans=$(($first*$second))
-                echo "************************************"
-                echo "$first multiply $minussecond --> $ans"
+                echo "$first multiply $second --> $ans"
                 try_again
-        elif [ "$choice" == "4" ]
+        elif [ "$option" == "4" ]
         then
+                echo "**********************************"
                 ans=$(($first**$second))
-                echo "************************************"
                 echo "$first power $second --> $ans"
                 try_again
         else
-                echo "************************************"
+                echo "**********************************"
                 echo "Invalid user input"
                 try_again
         fi
-
 }
 
 function validation_2 {
@@ -221,23 +198,23 @@ function validation_2 {
                 then
                         if first_right && second_wrong
                         then
-                                echo "******************************"
-                                echo "Second number field must contain only digits"
+                                echo "********************************"
+                                echo "Second number field must contain digits"
                                 try_again
                         elif first_wrong && second_right
                         then
-                                echo "******************************"
-                                echo "First number field must contain only digits"
+                                echo "********************************"
+                                echo "First number field must contain digits"
                                 try_again
                         elif first_wrong && second_wrong
                         then
-                                echo "******************************"
-                                echo "First number field must contain only digits"
-                                echo "Second number field must contain only digits"
+                                echo "********************************"
+                                echo "First number field must contain digits"
+                                echo "Second number field must contain digits"
                                 try_again
                         else
-                                echo "******************************"
-                                echo "Issues with user input validation"
+                                echo "********************************"
+                                echo "Issues with the user input validation"
                                 try_again
                         fi
                 elif first_right && second_right
@@ -246,10 +223,27 @@ function validation_2 {
                 fi
         fi
 }
-
+function try_again {
+        echo "*********************************************"
+        echo "Would you like to try again y/n ?"
+        read answer
+        if [ "$answer" == "y" ]
+        then
+                user_input
+                validation_1
+                validation_2
+        elif [ "$answer" == "n" ]
+        then
+                echo "*********************************************"
+                echo "You choose to quit"
+                exit
+        else
+                echo "*********************************************"
+                echo "Invalid, bye"
+        fi
+}
 
 
 user_input
 validation_1
 validation_2
-
