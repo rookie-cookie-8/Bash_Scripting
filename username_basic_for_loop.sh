@@ -33,3 +33,27 @@ else
 fi
 rm -rf ./1
 rm -rf ./username_list
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+echo "Enter the username"
+read username
+
+if [ -z "$username" ]
+then
+        echo "Username field cannot be empty"
+else
+        echo "****************************************"
+        for names in $(cat /etc/passwd | cut -d ":" -f1)
+        do
+                if [ "$names" == "$username" ]
+                then
+                        echo "Username found --> $names"
+                        sleep 0.5
+                else
+                        echo $names
+                        sleep 0.5
+                fi
+
+        done
+fi
