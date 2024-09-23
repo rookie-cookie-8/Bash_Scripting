@@ -60,3 +60,64 @@ then
                 echo "Invalid file location"
         fi
 fi
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+echo "Enter the domain name"
+read domain
+echo "Enter the file path"
+read filepath
+
+if [ -z "$domain" ] || [ -z "$filepath" ]
+then
+        if [ -n "$domain" ] && [ -z "$filepath" ]
+        then
+                echo "*********************************"
+                echo "File path field is empty"
+        elif [ -z "$domain" ] && [ -n "$filepath" ]
+        then
+                echo "*********************************"
+                echo "Domain field is empty"
+        elif [ -z "$domain" ] && [ -z "$filepath" ]
+        then
+                echo "*********************************"
+                echo "Domain field is empty"
+                echo "File field field is empty"
+        else
+                echo "*********************************"
+                echo "Issues with the user input"
+        fi
+elif [ -n "$domain" ] && [ -n "$filepath" ]
+then
+        if [ -e $filepath ]
+        then
+                if [ -f $filepath ]
+                then
+                        for sub_domains in $(cat $filepath)
+                        do
+                                host $sub_domains.$domain &>/dev/null
+                                if [ $? -eq 0 ]
+                                then
+                                        echo "*****************************************"
+                                        echo "$sub_domains.$domain found"
+                                        host $sub_domains.$domain 2>/dev/null
+                                        sleep 0.5
+                                else
+                                        echo "*****************************************"
+                                        echo "$sub_domains.$domain not found"
+                                        sleep 0.5
+                                fi
+                        done
+                elif [ -d $filepath ]
+                then
+                        echo "****************************************"
+                        echo "Its a directory nothing can be done"
+                else
+                        echo "****************************************"
+                        echo "Inavlid file type"
+                fi
+        else
+                echo "****************************************"
+                echo "File not found"
+        fi
+fi
