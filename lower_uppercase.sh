@@ -45,3 +45,28 @@ else
                 fi
         fi
 fi
+-------------------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
+echo "Enter your name"
+read name
+
+if [ -z "$name" ]
+then
+        echo "*********************************"
+        echo "Name field cannot be empty"
+else
+        if [ "$name" == "${name^^}" ]
+        then
+                echo "Name is in uppercase --> $name"
+                echo "Lets convert into lowercase --> ${name,,}"
+        elif [ "$name" == "${name,,}" ]
+        then
+                echo "Name is in lowercase --> $name"
+                echo "Lets convert into uppercase --> ${name^^}"
+        else
+                echo "Lets convert into uppercase --> ${name^^}"
+                echo "Lets convert into lowercase --> ${name,,}"
+        fi
+fi
+
