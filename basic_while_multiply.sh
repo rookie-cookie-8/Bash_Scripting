@@ -230,11 +230,10 @@ fi
 
 echo "Enter the first number"
 read first
-echo "Enter the multiplier number"
+echo "Enter the multiplier"
 read multiplier
 echo "Enter the stop number"
 read stop_number
-
 
 function first_right {
         [[ $first =~ ^[0-9]+$ ]]
@@ -248,121 +247,121 @@ function multiplier_right {
 function multiplier_wrong {
         [[ ! $multiplier =~ ^[0-9]+$ ]]
 }
-function stop_number_right {
+function stop_right {
         [[ $stop_number =~ ^[0-9]+$ ]]
 }
-function stop_number_wrong {
+function stop_wrong {
         [[ ! $stop_number =~ ^[0-9]+$ ]]
 }
 
 if [ -z "$first" ] || [ -z "$multiplier" ] || [ -z "$stop_number" ]
 then
-        if [ -n "$first" ] && [ -z "$multiplier" ] && [ -z "$stop_number" ]
+        if [ -n "$first" ] && [ -n "$multiplier" ] && [ -z "$stop_number" ]
         then
-                echo "****************************************"
-                echo "Multiplier number field is empty"
+                echo "*****************************************"
                 echo "Stop number field is empty"
-        elif [ -n "$first" ] && [ -n "$multiplier" ] && [ -z "$stop_number" ]
+        elif [ -n "$first" ] && [ -z "$multiplier" ] && [ -z "$stop_number" ]
         then
-                echo "****************************************"
+                echo "*****************************************"
+                echo "Multiplier number field is empty"
                 echo "Stop number field is empty"
         elif [ -n "$first" ] && [ -z "$multiplier" ] && [ -n "$stop_number" ]
         then
-                echo "****************************************"
-                echo "Multiplier number field is empty"
-        elif [ -z "$first" ] && [ -z "$multiplier" ] && [ -n "$stop_number" ]
-        then
-                echo "****************************************"
-                echo "First number field is empty"
+                echo "*****************************************"
                 echo "Multiplier number field is empty"
         elif [ -z "$first" ] && [ -n "$multiplier" ] && [ -n "$stop_number" ]
         then
-                echo "****************************************"
+                echo "*****************************************"
                 echo "First number field is empty"
+        elif [ -z "$first" ] && [ -z "$multiplier" ] && [ -n "$stop_number" ]
+        then
+                echo "*****************************************"
+                echo "First number field is empty"
+                echo "Multiplier number field is empty"
         elif [ -z "$first" ] && [ -n "$multiplier" ] && [ -z "$stop_number" ]
         then
-                echo "****************************************"
+                echo "*****************************************"
                 echo "First number field is empty"
                 echo "Stop number field is empty"
         elif [ -z "$first" ] && [ -z "$multiplier" ] && [ -z "$stop_number" ]
         then
-                echo "****************************************"
+                echo "*****************************************"
                 echo "First number field is empty"
                 echo "Multiplier number field is empty"
                 echo "Stop number field is empty"
         else
-                echo "****************************************"
+                echo "*****************************************"
                 echo "Issues with the user input"
         fi
 elif [ -n "$first" ] && [ -n "$multiplier" ] && [ -n "$stop_number" ]
 then
-        if first_wrong || multiplier_wrong || stop_number_wrong
+        if first_wrong || multiplier_wrong || stop_wrong
         then
-                if first_right && multiplier_wrong && stop_number_wrong
+                if first_right && multiplier_right && stop_wrong
                 then
-                        echo "*********************************************"
-                        echo "Multiplier field must contain only digits"
-                        echo "Stop number field must contain only digits"
-                elif first_right && multiplier_right && stop_number_wrong
+                        echo "**************************************************"
+                        echo "Stop number field must contain only numeric digits"
+                elif first_right && multiplier_wrong && stop_wrong
                 then
-                        echo "*********************************************"
-                        echo "Stop number field must contain only digits"
-                elif first_right && multiplier_wrong && stop_number_right
+                        echo "**************************************************"
+                        echo "Multiplier number field must contain only numeric digits"
+                        echo "Stop number field must contain only numeric digits"
+                elif first_right && multiplier_wrong && stop_right
                 then
-                        echo "*********************************************"
-                        echo "Multiplier number field must contain only digits"
-                elif first_wrong && multiplier_wrong && stop_number_right
+                        echo "**************************************************"
+                        echo "Multiplier number field must contain only numeric digits"
+                elif first_wrong && multiplier_right && stop_right
                 then
-                        echo "*********************************************"
-                        echo "First number field must contain only digits"
-                        echo "Multiplier number field must contain only digits"
-                elif first_wrong && multiplier_right && stop_number_right
+                        echo "**************************************************"
+                        echo "First number field must contain only numeric digits"
+                elif first_wrong && multiplier_wrong && stop_right
                 then
-                        echo "*********************************************"
-                        echo "First number field must contain only digits"
-                elif first_wrong && multiplier_right && stop_number_wrong
+                        echo "**************************************************"
+                        echo "First number field must contain only numeric digits"
+                        echo "Multiplier number field must contain only numeric digits"
+                elif first_wrong && multiplier_right && stop_wrong
                 then
-                        echo "*********************************************"
-                        echo "First number field must contain only digits"
-                        echo "Stop number field must contain only digits"
-                elif first_wrong && multiplier_wrong && stop_number_wrong
+                        echo "**************************************************"
+                        echo "First number field must contain only numeric digits"
+                        echo "Stop number field must contain only numeric digits"
+                elif first_wrong && multiplier_wrong && stop_wrong
                 then
-                        echo "*********************************************"
-                        echo "First field must contain only digits"
-                        echo "Multiplier field must contain only digits"
-                        echo "Stop number field must contain only digits"
+                        echo "**************************************************"
+                        echo "First number field must contain only numeric digits"
+                        echo "Multiplier number field must contain only numeric digits"
+                        echo "Stop number field must contain only numeric digits"
                 else
-                        echo "*********************************************"
-                        echo "Issues with user input validation"
+                        echo "**************************************************"
+                        echo "Issues with the user input validation"
                 fi
-        elif first_right && multiplier_right && stop_number_right
+        elif first_right && multiplier_right && stop_right
         then
-                ans=$(($first*$multiplier))
+                ans=$((first*multiplier))
                 if [ $ans -lt $stop_number ]
                 then
                         while [ $ans -lt $stop_number ]
                         do
-                                echo "***********************************"
+                                echo "**********************************************"
                                 echo "$first times $multiplier --> $ans"
                                 ((multiplier++))
-                                ans=$(($first*$multiplier))
+                                ans=$((first*multiplier))
                                 sleep 0.5
                         done
-                elif [ $ans -gt $stop_number ]
-                then
-                        echo "***********************************"
-                        echo "$first times $multiplier is greater than $stop_number"
-                        echo "$ans > $stop_number"
-                        echo "Nothing can be done"
                 elif [ $ans -eq $stop_number ]
                 then
-                        echo "***********************************"
-                        echo "$first times $multiplier is equal to $stop_number"
-                        echo "$ans == $stop_number"
-                        echo "Nothing can be done"
+                        echo "**************************************"
+                        echo "$first times $multiplier --> $ans"
+                        echo "Result i.e. $ans is equal to stop number i.e. $stop_number"
+                        echo "Cannot do anything"
+                elif [ $ans -gt $stop_number ]
+                then
+                        echo "**************************************"
+                        echo "$first times $multiplier --> $ans"
+                        echo "Result i.e. $ans is greater than stop number i.e. $stop_number"
+                        echo "Cannot do anything"
                 else
-                        echo "***********************************"
-                        echo "Something went wrong with caculation"
+                        echo "**************************************"
+                        echo "Issues with calculation"
                 fi
         fi
 fi
