@@ -1,3 +1,7 @@
+#brute force standard search
+#allows the user to brute force a domain in order to find different hostname of a domain
+# a file contain a wordlit of most popular hostname
+
 #!/bin/bash
 
 echo "Enter the domain i.e. google.com"
@@ -61,6 +65,10 @@ then
         fi
 fi
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#brute force standard search
+#allows the user to brute force a domain in order to find different hostname of a domain
+# a file contain a wordlit of most popular hostname
+
 #!/bin/bash
 
 echo "Enter the domain name"
