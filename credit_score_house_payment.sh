@@ -218,3 +218,116 @@ then
                 fi
         fi
 fi
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+#user input total cost of the house, credit score 
+#based on credit score, calculate the down payment 
+#credit score must be within 1-900 range
+
+
+#!/bin/bash
+
+echo "Enter the total cost of the house"
+read total
+echo "Enter the credit score"
+read credit
+
+function total_right {
+        [[ $total =~ ^[0-9]+$ ]]
+}
+function total_wrong {
+        [[ ! $total =~ ^[0-9]+$ ]]
+}
+function credit_right {
+        [[ $credit =~ ^[0-9]+$ ]]
+}
+function credit_wrong {
+        [[ ! $credit =~ ^[0-9]+$ ]]
+}
+
+
+function credit_right_range {
+        [[ $credit =~ ^[0-9]{1,900}$ ]]
+}
+function credit_wrong_range {
+        [[ ! $credit =~ ^[0-9]{1,900}$ ]]
+}
+
+if [ -z "$total" ] || [ -z "$credit" ]
+then
+        if [ -n "$total" ] && [ -z "$credit" ]
+        then
+                echo "***********************************"
+                echo "Credit score field is empty"
+        elif [ -z "$total" ] && [ -n "$credit" ]
+        then
+                echo "***********************************"
+                echo "Total cost of the house is empty"
+        elif [ -z "$total" ] && [ -z "$credit" ]
+        then
+                echo "***********************************"
+                echo "Total cost of the house is empty"
+                echo "Credit score field is empty"
+        else
+                echo "***********************************"
+                echo "Issues with the user input"
+        fi
+
+elif [ -n "$total" ] && [ -n "$credit" ]
+then
+        if total_wrong || credit_wrong
+        then
+                if total_right && credit_wrong
+                then
+                        echo "************************************"
+                        echo "Credit field must contin only numeric digits"
+                elif total_wrong && credit_right
+                then
+                        echo "************************************"
+                        echo "Total cost field must contin only numeric digits"
+                elif total_wrong && credit_wrong
+                then
+                        echo "************************************"
+                        echo "Credit field must contin only numeric digits"
+                        echo "Total cost field must contin only numeric digits"
+                else
+                        echo "************************************"
+                        echo "Issues with the user input validation"
+                fi
+        elif total_right && credit_right
+        then
+                if credit_wrong_range
+                then
+                        echo "*************************************"
+                        echo "Credit score range must be within 1-900"
+                elif credit_right_range
+                then
+                        if [ $credit -gt 750 ] || [ $credit -eq 750 ]
+                        then
+                                echo "********************************************"
+                                echo "Total cost of the houise --> $total"
+                                echo "Credit score --> $credit"
+                                ans=$(($total*10/100))
+                                echo "Down Payment --> $ans"
+                        elif [ $credit -gt 650 ] || [ $credit -eq 650 ]
+                        then
+                                echo "********************************************"
+                                echo "Total cost of the houise --> $total"
+                                echo "Credit score --> $credit"
+                                ans=$(($total*20/100))
+                                echo "Down Payment --> $ans"
+                        elif [ $credit -gt 600 ] || [ $credit -eq 600 ]
+                        then
+                                echo "********************************************"
+                                echo "Total cost of the houise --> $total"
+                                echo "Credit score --> $credit"
+                                ans=$(($total*30/100))
+                                echo "Down Payment --> $ans"
+                        else
+                                echo "********************************************"
+                                echo "Cannot proceed the application"
+                        fi
+                fi
+        fi
+fi
+
+
