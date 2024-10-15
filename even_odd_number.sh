@@ -315,4 +315,154 @@ then
                 fi
         fi
 fi
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+#!/bin/bash
+
+echo "Enter the first number"
+read first
+echo "Enter the second number"
+read second
+
+function first_right {
+        [[ $first =~ ^[0-9]+$ ]]
+}
+function second_right {
+        [[ $second =~ ^[0-9]+$ ]]
+}
+function first_wrong {
+        [[ ! $first =~ ^[0-9]+$ ]]
+}
+function second_wrong {
+        [[ ! $second =~ ^[0-9]+$ ]]
+}
+function first_right_range {
+        [[ $first =~ ^[0-9]{1,2}$ ]]
+}
+function second_right_range {
+        [[ $second =~ ^[0-9]{1,2}$ ]]
+}
+function first_wrong_range {
+        [[ ! $first =~ ^[0-9]{1,2}$ ]]
+}
+function second_wrong_range {
+        [[ ! $second =~ ^[0-9]{1,2}$ ]]
+}
+
+
+if [ -z "$first" ] || [ -z "$second" ]
+then
+        if [ -n "$first" ] && [ -z "$second" ]
+        then
+                echo "************************************"
+                echo "Second number field is empty"
+        elif [ -z "$first" ] && [ -n "$second" ]
+        then
+                echo "************************************"
+                echo "First number field is empty"
+        elif [ -z "$first" ] && [ -z "$second" ]
+        then
+                echo "************************************"
+                echo "First number field is empty"
+                echo "Second number field is empty"
+        else
+                echo "************************************"
+                echo "Issues with the user input"
+        fi
+
+elif [ -n "$first" ] && [ -n "$second" ]
+then
+        if first_wrong || second_wrong
+        then
+                if first_right && second_wrong
+                then
+                        echo "****************************************"
+                        echo "Second number field must contain only digits"
+                elif first_wrong && second_right
+                then
+                        echo "****************************************"
+                        echo "First number field must contain only digits"
+                elif first_wrong && second_wrong
+                then
+                        echo "****************************************"
+                        echo "First number field must contain only digits"
+                        echo "Second number field must contain only digits"
+                else
+                        echo "****************************************"
+                        echo "Issues with the user input"
+                fi
+        elif first_right && second_right
+        then
+                if first_wrong_range || second_wrong_range
+                then
+                        if first_right_range && second_wrong_range
+                        then
+                                echo "***************************************"
+                                echo "Second number field must contain max 2 digits"
+                        elif first_wrong_range && second_right_range
+                        then
+                                echo "***************************************"
+                                echo "First number field must contain max 2 digits"
+                        elif first_wrong_range && second_wrong_range
+                        then
+                                echo "***************************************"
+                                echo "First number field must contain max 2 digits"
+                                echo "Second number field must contain max 2 digits"
+                        else
+                                echo "***************************************"
+                                echo "Issues with the user input validation"
+                        fi
+                elif first_right_range && second_right_range
+                then
+                        if [ $first -lt $second ]
+                        then
+                                echo "*******************************************"
+                                echo "Would you like to print even / odd numbers"
+                                read choice
+                                if [ "$choice" == "even" ]
+                                then
+                                        for even_numbers in $(seq $first $second)
+                                        do
+                                                if(($even_numbers%2==0))
+                                                then
+                                                        echo "****Even number --> $even_numbers*****"
+                                                        sleep 0.5
+                                                else
+                                                        sleep 0.5
+                                                        continue
+                                                fi
+                                        done
+                                elif [ "$choice" == "odd" ]
+                                then
+                                        for odd_numbers in $(seq $first $second)
+                                        do
+                                                if(($odd_numbers%2!=0))
+                                                then
+                                                        echo "****Odd number --> $odd_numbers*****"
+                                                        sleep 0.5
+                                                else
+                                                        sleep 0.5
+                                                        continue
+                                                fi
+                                        done
+                                else
+                                        echo "**************************************"
+                                        echo "Invalid user input"
+                                fi
+                        elif [ $first -eq $second ]
+                        then
+                                echo "**************************************"
+                                echo "$first is equal to $second"
+                                echo "Nothing can be done"
+                        elif [ $first -gt $second ]
+                        then
+                                echo "**************************************"
+                                echo "$first is greather than $second"
+                                echo "Nothing can be done"
+                        fi
+
+                fi
+        fi
+fi
+
 
