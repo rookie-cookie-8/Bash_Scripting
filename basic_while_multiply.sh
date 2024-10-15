@@ -79,7 +79,11 @@ then
 fi
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
-#advanced
+##Basic while loop: User inputs the first number, multiplier, and stop number. 
+#The first number is then multiplied by the multiplier until reaching the stop number
+#if the result of multiplication i.e. first times $multiplier is greater than stop_number .. nothing to do
+#or else do the multiplication until the result is less than stop_number
+#with functions --> Chec user input must contain only numeric values
 #!/bin/bash
 
 echo "Enter the first number"
@@ -365,3 +369,205 @@ then
                 fi
         fi
 fi
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+##Basic while loop: User inputs the first number, multiplier, and stop number. 
+#The first number is then multiplied by the multiplier until reaching the stop number
+#if the result of multiplication i.e. first times $multiplier is greater than stop_number .. nothing to do
+#or else do the multiplication until the result is less than stop_number
+#with functions --> Chec user input must contain only numeric values
+#user input must not be greater than 2 digits
+
+#!/bin/bash
+
+echo "Enter the first number"
+read first
+echo "Enter the multiplier number"
+read multiplier
+echo "Enter the stop number"
+read stop_number
+
+function first_right {
+        [[ $first =~ ^[0-9]+$ ]]
+}
+function first_wrong {
+        [[ ! $first =~ ^[0-9]+$ ]]
+}
+function multiplier_right {
+        [[ $multiplier =~ ^[0-9]+$ ]]
+}
+function multiplier_wrong {
+        [[ ! $multiplier =~ ^[0-9]+$ ]]
+}
+function stop_number_right {
+        [[ $stop_number =~ ^[0-9]+$ ]]
+}
+function stop_number_wrong {
+        [[ ! $stop_number =~ ^[0-9]+$ ]]
+}
+
+function first_right_range {
+        [[ $first =~ ^[0-9]{1,2}$ ]]
+}
+function first_wrong_range {
+        [[ ! $first =~ ^[0-9]{1,2}$ ]]
+}
+function multiplier_right_range {
+        [[ $multiplier =~ ^[0-9]{1,2}$ ]]
+}
+function multiplier_wrong_range {
+        [[ ! $multiplier =~ ^[0-9]{1,2}+$ ]]
+}
+function stop_number_right_range {
+        [[ $stop_number =~ ^[0-9]{1,2}$ ]]
+}
+function stop_number_wrong_range {
+        [[ ! $stop_number =~ ^[0-9]{1,2}$ ]]
+}
+if [ -z "$first" ] || [ -z "$multiplier" ] || [ -z "$stop_number" ]
+then
+        if [ -n "$first" ] && [ -n "$multiplier" ] && [ -z "$stop_number" ]
+        then
+                echo "************************************"
+                echo "Stop number field is empty"
+        elif [ -n "$first" ] && [ -z "$multiplier" ] && [ -z "$stop_number" ]
+        then
+                echo "************************************"
+                echo "Multiplier number field is empty"
+                echo "Stop number field is empty"
+        elif [ -n "$first" ] && [ -z "$multiplier" ] && [ -n "$stop_number" ]
+        then
+                echo "************************************"
+                echo "Multiplier number field is empty"
+        elif [ -z "$first" ] && [ -n "$multiplier" ] && [ -n "$stop_number" ]
+        then
+                echo "************************************"
+                echo "First number field is empty"
+        elif [ -z "$first" ] && [ -z "$multiplier" ] && [ -n "$stop_number" ]
+        then
+                echo "************************************"
+                echo "First number field is empty"
+                echo "Multiplier number field is empty"
+        elif [ -z "$first" ] && [ -n "$multiplier" ] && [ -z "$stop_number" ]
+        then
+                echo "************************************"
+                echo "First number field is empty"
+                echo "Stop number field is empty"
+        elif [ -z "$first" ] && [ -z "$multiplier" ] && [ -z "$stop_number" ]
+        then
+                echo "************************************"
+                echo "First number field is empty"
+                echo "Multiplier number field is empty"
+                echo "Stop number field is empty"
+        else
+                echo "************************************"
+                echo "Issues with the user input"
+        fi
+elif [ -n "$first" ] && [ -n "$multiplier" ] && [ -n "$stop_number" ]
+then
+        if first_wrong || multiplier_wrong || stop_number_wrong
+        then
+                if first_right && multiplier_right && stop_number_wrong
+                then
+                        echo "********************************************"
+                        echo "Stop number field must contain only digits"
+                elif first_right && multiplier_wrong && stop_number_wrong
+                then
+                        echo "********************************************"
+                        echo "Multiplier number field must contain only digits"
+                        echo "Stop number field must contain only digits"
+                elif first_right && multiplier_wrong && stop_number_right
+                then
+                        echo "********************************************"
+                        echo "Multiplier number field must contain only digits"
+                elif first_wrong && multiplier_right && stop_number_right
+                then
+                        echo "********************************************"
+                        echo "First number field must contain only digits"
+                elif first_wrong && multiplier_wrong && stop_number_right
+                then
+                        echo "********************************************"
+                        echo "First number field must contain only digits"
+                        echo "Multiplier number field must contain only digits"
+                elif first_wrong && multiplier_right && stop_number_wrong
+                then
+                        echo "********************************************"
+                        echo "First number field must contain only digits"
+                        echo "Stop number field must contain only digits"
+                elif first_wrong && multiplier_wrong && stop_number_wrong
+                then
+                        echo "********************************************"
+                        echo "First number field must contain only digits"
+                        echo "Multiplier number field must contain only digits"
+                        echo "Stop number field must contain only digits"
+                else
+                        echo "********************************************"
+                        echo "Issues with the user input validation"
+                fi
+        elif first_right && multiplier_right && stop_number_right
+        then
+                if first_right_range && multiplier_right_range && stop_number_wrong_range
+                then
+                        echo "********************************************"
+                        echo "Stop number field cannot contain than 2 digits"
+                elif first_right_range && multiplier_wrong_range && stop_number_wrong_range
+                then
+                        echo "********************************************"
+                        echo "Multiplier number field cannot contain than 2 digits"
+                        echo "Stop number field cannot contain than 2 digits"
+                elif first_right_range && multiplier_wrong_range && stop_number_right_range
+                then
+                        echo "********************************************"
+                        echo "Multiplier number field cannot contain than 2 digits"
+                elif first_wrong_range && multiplier_right_range && stop_number_right_range
+                then
+                        echo "********************************************"
+                        echo "First number field cannot contain than 2 digits"
+                elif first_wrong_range && multiplier_wrong_range && stop_number_right_range
+                then
+                        echo "********************************************"
+                        echo "First number field cannot contain than 2 digits"
+                        echo "Multiplier number field cannot contain than 2 digits"
+                elif first_wrong_range && multiplier_right_range && stop_number_wrong_range
+                then
+                        echo "********************************************"
+                        echo "First number field cannot contain than 2 digits"
+                        echo "Stop number field cannot contain than 2 digits"
+                elif first_wrong_range && multiplier_wrong_range && stop_number_wrong_range
+                then
+                        echo "********************************************"
+                        echo "First number field cannot contain than 2 digits"
+                        echo "Multiplier number field cannot contain than 2 digits"
+                        echo "Stop number field cannot contain than 2 digits"
+                elif first_right_range && multiplier_right_range && stop_number_right_range
+                then
+                        ans=$(($first*$multiplier))
+                        if [ $ans -lt $stop_number ]
+                        then
+                                while [ $ans -lt $stop_number ]
+                                do
+                                        echo "**********************************************"
+                                        echo "$first times $multiplier -->$ans"
+                                        ((multiplier++))
+                                        ans=$(($first*$multiplier))
+                                        sleep 0.5
+                                done
+                        elif [ $ans -eq $stop_number ]
+                        then
+                                echo "*******************************************"
+                                echo "$first times $multiplier --> $ans"
+                                echo "Stop number --> $stop_number"
+                                echo "Both are equal, nothing to do"
+                        elif [ $ans -gt $stop_number ]
+                        then
+                                echo "*******************************************"
+                                echo "$first times $multiplier --> $ans"
+                                echo "Stop number --> $stop_number"
+                                echo "Result i.e. $ans is greater than $stop_number"
+                                echo "Nothing to do"
+                        fi
+                fi
+
+        fi
+fi
+
